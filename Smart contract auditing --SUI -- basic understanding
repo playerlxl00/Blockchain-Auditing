@@ -1,0 +1,63 @@
+# 对于所有sui项目来说，其所有项目源代码都写在sources文件夹里，其中每一个.move文件就是一个module，整个项目就是一个上传到公网的package。整个项目当中只有soureces文件夹和Move.toml文件是需要我们关注的文件，顶多后期关注一下前端链接，但整个项目和核心就是这两个文件，其它文件比如build只是一些编译信息，根本都不是源代码，完全不需要考虑
+// 1. 引入别的模块
+// marketplace.move
+use my_package::token;      // 引入另一个模块
+use my_package::admin;      // 引入另一个模块
+
+public fun buy() {
+    token::transfer(...);    // 调用别的模块的函数
+    admin::check_permission(...);
+}
+// 2. 使用别的模块定义的类型
+// pool.move
+use my_package::token::TOKEN;
+
+struct Pool has key {
+    coin: Coin<TOKEN>,      // 使用 token 模块定义的类型
+    ...
+}
+3. 别的模块来调用你
+// token.move
+public fun mint(...) { ... }  // 公开的函数，等着被别的模块调用
+就这三种。没有别的。
+
+// 所以首先我们根本不需要理解非常复杂的项目结构，也不需要阅读巨量代码，因为就算是有多个.move项目文件，它内部操作是非常单一的，你就算是创建了500个object呢，操作也都是一样的，包括官网上sui move教程里也是非常多的分类讨论，而不是扩展内部的代码复杂程度。所以代码本身并不吓人，审计的核心是理解，找茬，和测试
+
+// 注意： 
+// 1. 不是所有东西都能被引用
+// 只有标记为 public 的函数、结构体、常量才能被外部模块访问：
+module my_package::token {
+    public struct Coin { ... }           // ✅ 可以被其他模块使用
+    struct InternalState { ... }         // ❌ 只能当前模块用
+    
+    public fun mint() { ... }            // ✅ 可以被其他模块调用
+    fun helper() { ... }                 // ❌ 只能当前模块内部用
+    
+    public const VERSION: u64 = 1;       // ✅ 可以被其他模块读取
+    const INTERNAL_LIMIT: u64 = 100;     // ❌ 只能当前模块用
+}
+
+// 2. 结构体的字段不能直接跨模块访问
+即使结构体是 public，它的字段也只能在定义它的模块内部直接访问：
+
+// token.move
+module my_package::token {
+    public struct Coin has key {
+        value: u64,        // 字段
+    }
+    
+    public fun get_value(coin: &Coin): u64 {
+        coin.value  // ✅ 在自己的模块里可以访问字段
+    }
+}
+
+// marketplace.move  
+module my_package::marketplace {
+    use my_package::token;
+    
+    public fun check(coin: &token::Coin) {
+        // coin.value  ❌ 编译错误！不能直接访问
+        let v = token::get_value(coin);  // ✅ 必须通过公开函数
+    }
+}
+// 这是 Move 的封装性设计——防止外部代码直接操作内部状态。
