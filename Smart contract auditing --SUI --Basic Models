@@ -184,5 +184,5 @@ Hot Potato 模式：你返回了一个特殊的“收据”对象（必须立刻
 
 因为 Sui 验证者可以给交易排序，所以合约不能天真地相信“我看数据时是这样，执行时就一定还是这样”。审计就是检查：调用前看的数、执行中依赖的数、调用后期待的数，这三个阶段的数据一致性假设是否会被恶意顺序打破。
 
-进一步阐释： https://chat.deepseek.com/share/luba74yj519s4q0naz
+进一步阐释（包括防御代码）： https://chat.deepseek.com/share/cbz1vckrdqvnc7khux
 
