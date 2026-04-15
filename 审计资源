@@ -18,6 +18,10 @@ MoveBit 报告
 
 Let's Move CTF 共学营
 
+justCTF 2024 Sui题目 Writeup（含完整源码和攻击代码）：The Otter Scrolls（简单题）：https://ctftime.org/writeup/39255 ; The Otter Scrolls 另一个版本：https://ctftime.org/writeup/39201 
+
+---------------------------------------------------------
+
 2. 实战
 
 Immunefi 比赛赏金
@@ -28,3 +32,14 @@ Code4rena 比赛赏金
 
 Hackenproof 比赛赏金
 
+------------------------------------------------------------
+
+3. 辅助工具（提升效率）
+
+Move 合约审计平台（静态分析工具）：
+
+GitHub：https://github.com/A1LinLin1/hackathon 
+
+功能：CLI 扫描 Move 源码，自动检测访问控制、重入等漏洞
+
+动作：clone 下来 → 拿开源合约跑一遍 → 看工具能检出什么，检不出的就是你人脑的护城河。
