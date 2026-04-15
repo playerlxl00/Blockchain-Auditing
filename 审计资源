@@ -1,0 +1,28 @@
+1. 学习材料
+
+漏洞实验室 (GitHub)：https://github.com/Monethic/sui-vuln-lab。这是核心的实战靶场，包含7个故意设置漏洞的智能合约，是你亲手复现和调试的地方。
+
+安全研讨会总结文章 (英文原版)：https://medium.com/@monethic/sui-move-security-workshop-writeup-material-480c5e7d1da3。这是研讨会作者的原始博客文章，内容更详尽。
+
+letsmove-ctf资源：https://github.com/hoh-zone/lets-ctf
+
+一个名为 "(Not So) Smart Contracts" 的 Sui 漏洞集合：https://secure-contracts.com/not-so-smart-contracts/sui/index.html
+
+Sui智能合约安全最佳实践：从编码到部署的全流程防护：https://blog.csdn.net/gitblog_00873/article/details/151308629， 核心内容：这份中文指南系统讲解了Sui Move合约的安全要点，从基础的能力系统（Abilities）、可见性控制，到更进阶的集合安全与密码学安全问题都有覆盖
+
+MoveBit 报告
+
+慢雾安全团队：发布了《Sui - Move 合约审计入门》文章
+
+Let's Move CTF 共学营
+
+2. 实战
+
+Immunefi 比赛赏金
+
+MoveCTF 比赛赏金
+
+Code4rena 比赛赏金
+
+Hackenproof 比赛赏金
+
