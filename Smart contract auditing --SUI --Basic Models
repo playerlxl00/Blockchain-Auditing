@@ -1,7 +1,17 @@
 0.1 重入攻击/双花
+https://chat.deepseek.com/share/5z1dcicmb5uf9eyxz3
+https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
+
 0.2 重放攻击
+https://chat.deepseek.com/share/57d2r5k3d46auykurt
+
 0.3 Randomness攻击
-0.4 溢出攻击
+https://chat.deepseek.com/share/tprqbqlfkpr42b4vmb
+https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
+
+0.4 溢出攻击 (主要针对传统ethereum，关于sui的溢出会在后文详细说明)
+https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
+
 
 1. 溢出审计 Overflow Audit
 说明：
