@@ -38,10 +38,20 @@ Hackenproof 比赛赏金
 
 3. 辅助工具（提升效率）
 
-Move 合约审计平台（静态分析工具）：
+(1) Move 合约审计平台（静态分析工具）：
 
 GitHub：https://github.com/A1LinLin1/hackathon 
 
 功能：CLI 扫描 Move 源码，自动检测访问控制、重入等漏洞
 
 动作：clone 下来 → 拿开源合约跑一遍 → 看工具能检出什么，检不出的就是你人脑的护城河。
+
+(2) Gas费
+工具/资源	                    |  用途
+sui client dry-run	          |  模拟交易，预估 Gas 成本
+Sui Move Analyzer（≥0.8.7） 	|  VS Code 中实时显示存储成本预测
+Sui Explorer Gas Tracker	    |  实时比照实际 Gas 消耗，误差应在 ±3% 内
+Devnet / Testnet 环境	        |  估算应用 Gas 费用、计算初始资本需求
+
+(3) Move Prover与模糊测试
+https://chat.deepseek.com/share/4iipdhm5zjd6qd0stm
