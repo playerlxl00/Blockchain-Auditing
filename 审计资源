@@ -60,8 +60,8 @@ https://chat.deepseek.com/share/4iipdhm5zjd6qd0stm
 https://chat.deepseek.com/share/h309mouh0q4xiv8xyn
 
 工具名称	                |主要功能	                                                                                            |如何使用 / 获取方式
-Sui Move Analyzer	      |VSCode 插件，提供语法高亮、自动补全、代码跳转、静态分析等。	                                              |在 VSCode 扩展商店搜索 “Sui Move Analyzer” 并安装。
-move-fcg-tool	          |通过解析源码生成函数调用图 (FCG)，辅助理解合约间的复杂调用关系。	                                        |这是一个Python包，可通过 pip 安装：pip install move-fcg-tool。
+Sui Move Analyzer	     |VSCode 插件，提供语法高亮、自动补全、代码跳转、静态分析等。	                                             |在 VSCode 扩展商店搜索 “Sui Move Analyzer” 并安装。
+move-fcg-tool	         |通过解析源码生成函数调用图 (FCG)，辅助理解合约间的复杂调用关系。	                                          |这是一个Python包，可通过 pip 安装：pip install move-fcg-tool。
 Sui Prover	            |基于形式化验证的工具，通过数学方法证明合约在所有状态下都符合规范（Spec）。	                                |可使用 Homebrew 安装：brew install asymptotic-code/sui-prover/sui-prover。详细使用方法可查阅其官方文档。
 Move Registry (MVR)	    |Sui 的链上包管理系统，将一长串地址映射为人类可读的名称（如 @deepbook/core），便于包的发现、集成与版本管理。	|浏览器端：访问 moveregistry.com 浏览和搜索包。  命令行端：通过 sui client ptb 等命令与 MVR 交互。MVR 也提供 Rust 和 TypeScript SDK。
 Sentri	                |针对 Move 模块的命令行静态分析工具，可以在几秒钟内完成扫描，快速发现潜在漏洞。	                            |这是一个 npm 包：@geekstrancend/cli，可通过 npm 或 yarn 安装。
