@@ -61,3 +61,7 @@ module my_package::marketplace {
     }
 }
 // 这是 Move 的封装性设计——防止外部代码直接操作内部状态。
+
+------------------------------------------------------------------------------
+
+<>(){}理解： https://chat.deepseek.com/share/xcblcrxtnj2hwqggt6
