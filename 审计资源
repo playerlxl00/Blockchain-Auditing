@@ -59,6 +59,7 @@ https://chat.deepseek.com/share/4iipdhm5zjd6qd0stm
 (4) 单元测试
 https://chat.deepseek.com/share/h309mouh0q4xiv8xyn
 
+(5) 一堆工具
 工具名称	                |主要功能	                                                                                            |如何使用 / 获取方式
 Sui Move Analyzer	     |VSCode 插件，提供语法高亮、自动补全、代码跳转、静态分析等。	                                             |在 VSCode 扩展商店搜索 “Sui Move Analyzer” 并安装。
 move-fcg-tool	         |通过解析源码生成函数调用图 (FCG)，辅助理解合约间的复杂调用关系。	                                          |这是一个Python包，可通过 pip 安装：pip install move-fcg-tool。
