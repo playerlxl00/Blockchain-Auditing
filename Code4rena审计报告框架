@@ -233,3 +233,19 @@ C4 audits incentivize the discovery of exploits, vulnerabilities, and bugs in sm
 C4 does not provide any guarantee or warranty regarding the security of this project. All smart contract software should be used at the sole risk and responsibility of users.
 
 //////////// <>里面内容在原文是超链接
+
+
+总结：
+
+审计报告的标准骨架（通用框架）
+无论漏洞大小，专业审计报告（尤其是 Code4rena 风格）都遵循 "论证三段式"，就像写一篇微型的科学论文。
+
+您可以把这个骨架当成填空题来做，每次发现漏洞就往里套：
+
+章节标题	                          写作目的	                                                                      您的这份报告中的例子
+1. Title / Summary	              一句话定性：让项目经理和开发者一眼看懂出了什么事。	                                  setDEFAULT_BUILDER can cause a Denial of Service
+2. Vulnerability Details	      逻辑还原：描述正常逻辑 vs 实际代码的偏差。	                                      描述了代码在设置为 DEFAULT_BUILDER 时没有检查它是否存在。
+3. Impact	                      后果估算：攻击者能利用这个做什么？项目方会损失什么？	                              任何依赖该配置的交易都会中止，导致 拒绝服务 (DoS)。
+4. Code Snippet	                  呈堂证供：必须贴上具体的、带行号或高亮的源代码。	                                  贴出了 set_msglib_ptb_builder 函数代码，并高亮 // NO CHECK。
+5. Proof of Concept (PoC)	      复现路径：提供一个可执行的测试，让评委和项目方亲眼看到漏洞发生，避免空口无凭。	      O1中的那段 Move 测试代码。
+6. Recommended Mitigation	      给出药方：直接给出修改后的代码片段，而不是泛泛而谈“加强检查”。	                      建议在 if 后加 else 分支去调用 assert...。
