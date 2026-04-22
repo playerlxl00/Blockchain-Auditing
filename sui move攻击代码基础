@@ -1,0 +1,117 @@
+你感觉到的“乱七八糟”的内置东西，主要是因为测试环境需要用代码来模拟区块链的各种行为（比如交易、用户、对象）。它不是直接验证你写的函数，而是通过模拟一系列链上操作来测试。弄懂下面几个核心概念，你就能理清这套测试体系的逻辑了。
+
+🤬 测试代码 vs. 业务代码：两套完全不同的世界观
+首先，用注解（Annotations）这个“标记”来区隔测试和业务代码，是为了确保测试工具和逻辑永远不会混入你最终部署到链上的代码，保证线上包的安全和纯净。
+
+· #[test]：声明一个函数为测试函数。
+
+· #[test_only]：标记模块、函数、结构体等仅在测试模式下编译。
+
+· #[expected_failure]：用于标记一个预期会失败的测试。
+
+🎭 sui::test_scenario：测试体系的“导演”
+这是一个专门为你搭建“虚拟片场”来模拟多用户、多交易场景的模块。你所有的测试操作，基本都围绕着它提供的 Scenario 对象进行。
+
+Scenario 对象维护了一个全局对象池，测试中创建和转移的对象都暂时存在这个池子里。核心操作流程如下：
+
+1. begin(sender: address): Scenario：初始化一个测试场景，指定第一个“交易发起人”。
+
+2. next_tx(scenario: &mut Scenario, sender: address): TransactionEffects：结束当前交易并进入下一个，需指定新的发送者地址。
+
+3. end(scenario: Scenario)：必须显式调用来清理场景对象，因为它没有 drop 能力，忘记调用会导致编译错误。
+
+同时，test_scenario 还提供了一系列“道具管理”函数来模拟用户与链上对象的交互：
+
+· take_from_sender<T>(scenario: &Scenario): T：从当前发送者的“名下”拿走一个类型为 T 的对象。
+
+· return_to_sender<T>(scenario: &mut Scenario, object: T)：将拿走的对象“归还”给发送者。
+
+· take_shared<T>(scenario: &Scenario): T：与 take_from_sender 类似，但用于获取共享对象。
+
+· return_shared<T>(scenario: &mut Scenario, object: T)：归还共享对象。
+
+· ctx(scenario: &mut Scenario): &mut TxContext：获取当前交易上下文，用于创建新对象等。
+
+🛠️ sui::test_utils 与 std::debug：辅助工具包
+这套体系还提供了两个辅助模块：
+
+· sui::test_utils：提供测试专属的实用函数，如 destroy<T>(object: T) 用于直接销毁对象而无需归还。
+
+· std::debug：用于调试，可以打印变量值或堆栈信息。例如：
+
+  · std::debug::print(&v)：打印变量 v 的值。
+
+  · std::debug::print_stack_trace()：打印当前堆栈信息。
+
+✅ 断言（Assertions）：测试的判断依据
+断言是判断测试结果是否符合预期的工具，Move 提供了一些便捷宏：
+
+· assert!：最基础的断言，条件为 false 时测试失败。
+
+· assert_eq! / assert_ref_eq!：更强大的断言宏，在失败时会打印左右值，方便对比差异。
+
+· abort：在代码中主动触发异常退出，常与 #[expected_failure] 注解配合使用。
+
+👨‍💻 代码对比：一句话，两套实现
+为了让你更直观地感受，看看同一个逻辑在业务代码和测试代码里的写法差异有多大。
+
+· 业务代码：这是你的“正片”，逻辑清晰直接。
+
+move
+// 业务代码：创建一个 Sword 对象
+public fun sword_create(magic: u64, strength: u64, ctx: &mut TxContext): Sword {
+    Sword { id: object::new(ctx), magic, strength }
+}
+
+· 测试代码：为了测试这个“正片”，测试代码需要模拟一个完整的交易场景。
+
+move
+#[test_only]
+module sword::sword_tests {
+    use sui::test_scenario;
+    use sword::sword;
+
+    #[test]
+    fun test_create_sword() {
+        let user = @0xA;
+        // 1. 导演上场：初始化测试场景
+        let mut scenario = test_scenario::begin(user);
+        {
+            // 2. 第一场戏：用户创建 Sword 并转给自己
+            let sword = sword::sword_create(47, 10, test_scenario::ctx(&mut scenario));
+            transfer::public_transfer(sword, user);
+        };
+        // 3. 导演喊“卡”，进入下一个交易（模拟链上确认）
+        test_scenario::next_tx(&mut scenario, user);
+        {
+            // 4. 第二场戏：验证 Sword 的属性
+            let sword = test_scenario::take_from_sender<Sword>(&scenario);
+            assert!(sword.magic == 47, 1);
+            // 5. 道具用完记得归还
+            test_scenario::return_to_sender(&mut scenario, sword);
+        };
+        // 6. 拍摄结束，清理片场
+        test_scenario::end(scenario);
+    }
+}
+
+💡 常见“踩坑”点与排查指南
+· 忘记调用 end(scenario)：Scenario 对象没有 drop 能力，必须在测试结束时显式销毁，否则编译报错。
+
+· 对象“失踪”或“找不到”：使用 take_* 方法前，要确保对象已在当前场景的发送者名下（例如已通过 transfer 转移），或对象是共享的。
+
+· next_tx 使用时机不当：next_tx 会提交当前交易的所有状态变更。如果在一个交易内尚未 return 对象就直接调用，模拟器会认为对象“丢失”了。
+
+· 类型参数不匹配：使用 take_from_sender<T> 这类泛型函数时，必须保证 T 与实际的对象类型完全一致。
+
+· 断言宏使用错误：旧的 assert 已弃用，推荐使用 assert! 宏。
+
+📝 核心模块速查表
+模块/注解	              |  核心概念	  | 主要用途
+#[test]	                |  测试入口	  | 标记测试函数，sui move test 时执行
+#[test_only]	          |  代码隔离	  | 标记测试辅助代码，确保不混入生产环境
+#[expected_failure]	    |  异常测试	  | 用于测试代码在特定条件下是否如期失败
+sui::test_scenario	    |  交易模拟	  | 模拟多用户、多交易链上环境，管理虚拟对象
+sui::test_utils	        |  测试工具	  | 提供 destroy 等测试专属工具函数
+std::debug	            |  调试输出	  | 在测试中 print 变量值或堆栈，辅助调试
+std::unit_test	        |  断言增强	  | 提供 assert_eq! 等宏，失败时输出差异值
