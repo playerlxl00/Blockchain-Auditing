@@ -70,3 +70,16 @@ Move Registry (MVR)	    |Sui 的链上包管理系统，将一长串地址映射
 Sentri	                |针对 Move 模块的命令行静态分析工具，可以在几秒钟内完成扫描，快速发现潜在漏洞。	                            |这是一个 npm 包：@geekstrancend/cli，可通过 npm 或 yarn 安装。
 SUI TX DECODER	        |一个基于 AI 的交易解析器，能将复杂的交易哈希转换为清晰、可读的解释，并生成可视化流程图。	                    |在 Product Hunt 等平台上可以找到并使用该工具。
 Manuscript-GUI	        |一个图形化工具，允许用户无需编写代码即可配置数据管道、预览结果，并获取 Move 调用的交易数据。               	|它是一个独立的应用程序，用于更便捷地访问和查询 Sui 区块链数据。
+
+(6) 一堆工具
+
+阶段	          工具名称	                                  类型	                           适用场景	                                          链接
+开发中	          Sui 官方 Linters	                        Linter (编译器内置)	             开发时实时检查对象处理、coin 余额等Sui特有模式	      https://blog.sui.io/linter-compile-warnings-update/
+                MoveBit Sui Analyzer	                    Linter & 静态分析 (IDE插件)	     VSCode 内实时提示、代码补全、质量检查	                https://github.com/movebit/sui-move-analyzer
+                Sui Move Language (for JetBrains)	        Linter & 静态分析 (IDE插件)	     JetBrains IDE 内实时检查、重构、安全漏洞检测	        https://plugins.jetbrains.com/plugin/27656-move-language-for-sui 或者 https://github.com/sui-tools/sui-move-language
+自动化审计	      Beosin Move Lint	                        静态分析 (CLI)	                   批量检测代码规范和安全规则	                          https://github.com/BeosinBlockchainSecurity/Move-Lint
+                MIESC	                                    静态分析 (整合框架)	             协调多种安全工具的预审计分诊	                        https://pypi.org/project/miesc/
+
+终端指令： sui move build --lint
+
+具体阐释： https://chat.deepseek.com/share/gqqbgbjkdklydbohwr
