@@ -1,0 +1,90 @@
+线索一：官方生态入口
+Sui 官方生态相关的核心链接如下：
+
+资源	链接	用途说明
+Sui 官网	                https://sui.io	                          官网底部通常有 Ecosystem / Build 版块，是官方展示生态项目的第一入口
+Sui 生态项目页面	          https://sui.io/ecosystem	                官方项目展示柜，可按 RWA、DeFi、Payments 等赛道标签筛选，项目质量经过初筛
+Sui 官方博客	              https://blog.sui.io	                      官方公告新合作、新赛道（如 RWA 合作、稳定币推出等），是了解生态战略方向的窗口。
+Sui Foundation Twitter	  https://twitter.com/SuiFoundation	        官方日常动态，可搜索 "RWA"、"Real World Asset"、"Tokenization" 等关键词找赛道动态
+Sui Network Twitter	      https://twitter.com/SuiNetwork	          主网官方账号，由 Sui Foundation 运营，同步发布生态进展。
+
+社群补充：几乎所有项目的核心开发者和社区都在 Discord 上讨论。Sui 官方 Discord 的开发者频道可以让你在项目还没出来时就接触到最早期的问题讨论。邀请链接：discord.gg/sui
+
+线索二：顶级风投的“购物车”
+以下是三家重点 VC 的核心公开渠道：
+
+投资机构	               官网 / 博客	                    Twitter	           说明
+a16z crypto	           https://a16zcrypto.com	        @a16zcrypto	       投资过 Coinbase、Uniswap、Compound 等顶级项目，博客会发布投资逻辑文章，可了解机构视角的赛道判断。
+Jump Crypto	           https://jumpcrypto.com	        @jumptrading	     核心贡献了 Pyth、Wormhole、Firedancer 等基础设施级项目，对 Sui 生态投入较深。
+Variant Fund	         https://variant.fund	          @variantfund	     投资了 Uniswap、Morpho、Flashbots 等 DeFi 头部项目，在加密网络安全方面视野精准。
+
+关于 Sui 生态投资背景：a16z Crypto、Jump Crypto、Binance Labs、Coinbase Ventures、Circle Ventures 等顶级机构，都参与了 Sui 开发团队 Mysten Labs 的 3 亿美元 B 轮融资，说明这些机构对 Sui 生态整体有强力背书和长期投入的意向。
+
+线索三（补充）：进阶数据与研究平台
+初期你可能主要在空投平台和钱包里找项目，但当你追踪到具体项目、想做深度审计和追踪时，下面这些平台能让你快速看到指标、资金流向和竞争格局。
+
+平台	                 链接	                                    核心用途
+DefiLlama	             https://defillama.com	                  查看全部公链及 Sui 上各 DeFi 协议的 TVL（锁仓量），按 RWA 赛道筛选，精准锁定被市场验证过的头部项目。RWA 协议 TVL 已超 170 亿美元，成为 DeFi 第五大赛道。
+RWA.xyz	               https://rwa.xyz	                        专门追踪 RWA 赛道数据，显示代币化资产总规模已超 212 亿美元，可查看具体 RWA 协议的核心指标。
+CoinGecko	             https://www.coingecko.com	              按 "RWA" / "RWA Protocol" 分类标签查看赛道市值排名，快速定位热门项目和代币。
+Dune Analytics	       https://dune.com	                        搜索他人创建的 RWA 赛道数据看板，或自己写 SQL 分析项目链上活跃度，技术分析能力更强时尤其好用。
+Messari	               https://messari.io	                      查看专业深度的 RWA 赛道研究报告，提供机构级别的分析视角。
+GitHub（精准搜索）	     github.com	                              直接搜索 move rwa、sui tokenization 等关键词，找到项目源码仓库，直击链上合约设计。
+CryptoSlam	           https://cryptoslam.io	                  若你审计的 RWA 项目采用 NFT 形式，可在这里看资产的市场交易热度，通过销售数据辅助判断项目的实际用户规模。
+Nansen	               https://www.nansen.ai	                  智能标记链上钱包地址（如 Smart Money），分析资金流向，帮助你从资产安全角度评估项目是否存在资金集中等中心化风险。
+
+一个实操串联建议
+收藏以上链接后，可以试试这个三步串联练习：
+
+官方挖矿：在 Sui 官方生态页面或博客最新公告里找到 1 个被提到的新 RWA 项目名。
+
+数据初筛：去 DefiLlama 或 CoinGecko 看一下它的 TVL、赛道地位等核心指标。
+
+投研验证：去 Messari 搜搜有没有相关深度研报，再反向去前文 VC 的投资组合公布渠道中搜索，看这个项目有没有头部机构背书。
+
+希望这份资源地图能帮到你，练得多了，你的项目发现和审计嗅觉会越来越敏锐。
+
+线索四： 空投
+
+你对X的判断基本是对的，信息信噪比极低。 但好消息是，靠谱的空投信息渠道不在X的垃圾堆里，而在几个特定的、高质量的平台里。这些平台会直接给你链接，不需要在骗子堆里struggle。
+
+空投的本质（用一句话说清楚）
+空投 = 项目方用免费代币购买你的时间和链上行为数据，帮他们在早期阶段制造虚假繁荣、拉高数据，好去融资或讲故事。
+
+这不是什么神秘财富密码，而是一笔冷冰冰的交易：你用Gas费和时间换一个未来可能值钱的承诺。2025年，仅空投相关的诈骗损失就达到了170亿美元，同比增长1400%。所以你的警惕是完全正确的。
+
+靠谱的信息平台（直接给你链接）
+这些平台都不需要看X的帖子，直接访问就行。
+
+第一类：空投机会发现（核心平台）
+🌐 聚合类网站 — 直接浏览，不用看别人推文
+
+平台	                     链接	                                        特点
+DefiLlama Airdrops	       https://defillama.com/airdrops	              行业最权威的TVL数据网站的空投专区，列出早期DeFi项目及其潜在空投
+DropsTab	                 https://dropstab.com/activities	            最全面的项目活动追踪，覆盖测试网、积分计划、大使计划等，更新极快
+RootData	                 https://cn.rootdata.com/Fundraising	        查项目融资情况，融资质量是判断空投价值的核心指标
+Airdrops.io	               https://airdrops.io	                        老牌聚合平台，只列经过验证的空投，按链分类
+AirDropAlert	             https://airdropalert.com	                    同样老牌，有教育资源和诈骗过滤
+第二类：验证与深度分析
+🔍 验证工具 — 用来判断项目是不是骗局
+
+平台	              链接	                                             用途
+DeBank	            https://debank.com/protocols	                     查协议的TVL和用户数，人数多=项目有真用户基础
+Token Terminal	    https://tokenterminal.com/explorer/projects	       查项目开发活跃度和用户地址变化
+DeFiLlama Hacks	    https://defillama.com/hacks	                       查项目有没有被盗过（安全性直接挂钩空投价值）
+Dexu.ai	            https://dexu.ai/project/btc	                       查项目的X数据、粉丝增长、Smart Follower数量
+
+第三类：安全防护（必须装）
+工具	              链接	                         作用
+ScamSniffer	        https://scamsniffer.io	       浏览器插件，实时拦截钓鱼网站
+ChainAware.ai	      https://chainaware.ai	         行为欺诈检测，分析空投发送方是否有欺诈历史
+用审计思维看空投（这才是你的优势）
+你学审计的，其实可以直接把空投信息平台当作靶场筛选器，而不是暴富工具：
+
+1. 在DropsTab上找到一个热门的测试网项目 → 按我们之前聊的策略，去翻它的合约源码
+
+2. 用DeBank验证它是否有真实用户基础 → 如果TVL只有几百U，可能是垃圾项目
+
+3. 用RootData查融资 → 如果融资金额大、投资方强，说明项目有资源
+
+你把这一步做好，就已经不是"撸空投"了，而是在积累你的审计作品集。 有发现漏洞→提交PoC→获得赏金或知名度。这本身就是审计师成长的必经之路，只不过同时还有机会拿空投，算是个双赢。
