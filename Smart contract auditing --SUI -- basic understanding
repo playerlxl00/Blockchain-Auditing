@@ -65,3 +65,25 @@ module my_package::marketplace {
 ------------------------------------------------------------------------------
 
 <>(){}理解： https://chat.deepseek.com/share/xcblcrxtnj2hwqggt6
+
+-------------------------------------------------------------------------------
+
+在 Move 语言（Sui Move）里，Result 是一个内置的枚举类型，它有两种状态：
+
+· Ok(value) —— 表示操作成功，并携带返回值
+
+· Err(error_code) —— 表示操作失败，并携带错误码
+
+.is_err() 是 Result 类型上的一个方法，作用是：
+如果当前结果是 Err 变体，就返回 true；否则返回 false。
+
+在你这段测试里：
+
+move
+assert!(transfer::try_transfer(coin, @0x4).is_err(), ENotAuthorized);
+
+· transfer::try_transfer(coin, @0x4) 返回一个 Result 类型（一般是 Result<(), u64> 或类似）。
+
+· 紧接着 .is_err() 检查这个结果是不是一个错误。如果转账因为权限不足失败了（返回 Err），.is_err() 就是 true，assert! 通过。如果意外成功了（返回 Ok），.is_err() 就是 false，assert! 会触发，测试终止并抛出 ENotAuthorized 错误码。
+
+简单说：这行测试就是在断言 “这次转账必须失败”，.is_err() 就是用来判断“是不是真的失败了”。
