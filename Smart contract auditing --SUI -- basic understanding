@@ -87,3 +87,8 @@ assert!(transfer::try_transfer(coin, @0x4).is_err(), ENotAuthorized);
 · 紧接着 .is_err() 检查这个结果是不是一个错误。如果转账因为权限不足失败了（返回 Err），.is_err() 就是 true，assert! 通过。如果意外成功了（返回 Ok），.is_err() 就是 false，assert! 会触发，测试终止并抛出 ENotAuthorized 错误码。
 
 简单说：这行测试就是在断言 “这次转账必须失败”，.is_err() 就是用来判断“是不是真的失败了”。
+
+----------------------------------------------------------------------------------------
+
+PTB机制详细阐释： https://chat.deepseek.com/share/3frbfzjjnji26acwge
+
