@@ -8,6 +8,7 @@ https://chat.deepseek.com/share/57d2r5k3d46auykurt
 0.3 Randomness攻击
 https://chat.deepseek.com/share/tprqbqlfkpr42b4vmb
 https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
+https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
 
 0.4 溢出攻击 (主要针对传统ethereum，关于sui的溢出会在后文详细说明)
 https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
@@ -346,6 +347,7 @@ https://chat.deepseek.com/share/xkpl8f1nwspbes8zhj
 · 涉及到高频率的调用看是否可以优化函数内部执行的效率。
 
 详细阐释： https://chat.deepseek.com/share/sc12jlish8v64af4x4
+(总之原则一句话总结就是，不影响功能情况下越简单越好)
 
 --------------------------------------------------------------------------------------
 
