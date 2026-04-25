@@ -109,6 +109,8 @@ Move 位运算截断是 程序员逻辑写错了，但机器觉得你没错。
 
 逻辑错误导致的问题，只需改正，无需防御代码
 
+拓展代码： https://chat.deepseek.com/share/rfr18sv0pslwdwolbo
+
 ------------------------------------
 
 2. 算术精度误差审计 Arithmetic Accuracy Deviation Audit
