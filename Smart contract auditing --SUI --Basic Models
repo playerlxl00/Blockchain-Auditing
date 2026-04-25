@@ -1,16 +1,20 @@
 0.1 重入攻击/双花
+同一笔钱在不同交易中重复花
 https://chat.deepseek.com/share/5z1dcicmb5uf9eyxz3
 https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
 
 0.2 重放攻击
+整笔交易重复调用
 https://chat.deepseek.com/share/57d2r5k3d46auykurt
 
 0.3 Randomness攻击
+随机数只有在模块内部生成才确保安全，因为随机都是伪随机，本质只是算法，如果允许外部操作则外部可以计算出随机数
 https://chat.deepseek.com/share/tprqbqlfkpr42b4vmb
 https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
 https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
 
 0.4 溢出攻击 (主要针对传统ethereum，关于sui的溢出会在后文详细说明)
+0-1攻击
 https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
 
 
