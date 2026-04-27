@@ -111,3 +111,29 @@ sui move函数调用与private, public, public(friend)机制详细阐释： http
 drop含义阐释： https://chat.deepseek.com/share/9niou7nxpn5vlrh56j
 
 key, store, copy含义阐释： https://chat.deepseek.com/share/rhe7tv0wqyxe2e5l97
+
+------------------------------------------------------------------------------------------
+
+自动丢弃功能(隐式)：
+
+简单讲，自动丢弃就是：你把一个带 drop 能力的值（比如数字、布尔值）随手扔在那里不管它，编译器帮你打扫干净。它是被默默地、省心地销毁。
+
+哪些东西可以“自动丢弃”？（有 drop 能力的常见类型）
+· 基础类型：u8, u16, u32, u64, u128, u256, bool, address。
+
+· 部分标准库结构体：String (Move自带的), vector (如果里面的元素也有 drop), Option (如果里面的值有 drop)。
+
+· Sui 框架里的：Balance<T>, Supply<T>, Url 等。
+
+· 你自己定义的：只要你在结构体定义时加了 has drop。
+
+哪些东西不能自动丢弃？（没有 drop 能力的常见类型）
+· 所有带 key 能力的对象：比如 Coin<T>, UID, TreasuryCap<T>, 各种 NFT。它们是“资产”，禁止随手乱扔。
+
+· 你自己定义的 Hot Potato：比如 FlashLoanReceipt，强制你必须显式解构。
+
+所以，“自动丢弃”就是编译器替你做了清理工作，而不像 Hot Potato 那样，你一忘了它编译器就立刻报错。
+
+--------------------------------------------------------------------------------------------
+
+witness, receipt和hot potato介绍与区分： https://chat.deepseek.com/share/k63ysyiieijr64hdpo
