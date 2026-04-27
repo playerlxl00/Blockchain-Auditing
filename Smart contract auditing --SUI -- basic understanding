@@ -100,7 +100,9 @@ PTB机制详细阐释： https://chat.deepseek.com/share/3frbfzjjnji26acwge
 
 在 Witness 模式中，这正是精髓：我们只关心传入的类型本身来证明权限，而不需要读取这个值里的任何数据（反正它经常是空结构体）。所以用 _witness 是一种惯用写法。
 
+-----------------------------------------------------------------------------------------
 
+sui move函数调用与private, public, public(friend)机制详细阐释： https://chat.deepseek.com/share/d3911wzj4jsmu5d1hk
 
 
 
