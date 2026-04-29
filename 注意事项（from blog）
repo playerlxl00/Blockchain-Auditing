@@ -1,16 +1,9 @@
 一 语言安全特性
 
-1. ability类型 (需补充)
-资产类必须声明key能力
-可交易资产需添加store能力
-核心数据结构避免drop能力（防止意外销毁）：
 
 
-3. 集合安全：避免灾难性存储溢出 (入DoS)
-· 已知大小≤1000： 使用VecSet/VecMap
-· 位置大小或第三方添加：使用Table/Bag
-· 资产存储： 强制使用ObjectBag/ObjectTable
-· 禁止在循环中使用vector:push_back处理用户输入
+
+3. 
 
 二 测试验证
 
