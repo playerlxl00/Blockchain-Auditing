@@ -9,14 +9,15 @@
 注意：PTB打包操作是在前端进行，进入合约的已经是PTB本身
 
 
-0.1 重入攻击/双花
+0.1 重入攻击/双花 (在sui上不存在，因为sui无类似以太坊的动态调用，必须严格指明resource)
 同一笔钱在不同交易中重复花
 https://chat.deepseek.com/share/5z1dcicmb5uf9eyxz3
 https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
 
 0.2 重放攻击
-整笔交易重复调用
+整笔交易重复调用，本质上是11.返回值检查，比如在一笔交易完成后并没有进行合适的状态变更(无论成功还是失败都应该做出恰当变更)，导致可以被重复调用。(sui自身的纪元epoch机制提供了防范，sui的交易干燥运行（Dry Run），模拟执行以检查其有效性可以识别失败交易，不会在链上留下失败记录，从而减少攻击风险)
 https://chat.deepseek.com/share/57d2r5k3d46auykurt
+https://chat.deepseek.com/share/b157xhx70scgiwq8ir
 
 0.3 Randomness攻击
 随机数只有在模块内部生成才确保安全，因为随机都是伪随机，本质只是算法，如果允许外部操作则外部可以计算出随机数
