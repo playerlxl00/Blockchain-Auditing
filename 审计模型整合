@@ -4,12 +4,16 @@
 3. 所有权，
 4. 时间差，
 5. 任何交互过程可能产生的逻辑错乱和增加的攻击面
-6. 数学逻辑正确性： https://chat.deepseek.com/share/2nse699ycb6rtvhfuz
-6.1 溢出审计
-位运算溢出或自定义函数溢出
-6.2 算术精度误差审计 Arithmetic Accuracy Deviation Audit
-核心： 十进制只有整数没有小数，小数部分会被砍掉，所以有误差
-
+6. 数学逻辑正确性： 
+  6.1 溢出审计
+    6.1.1 位运算溢出
+    6.1.2 自定义函数溢出
+      https://chat.deepseek.com/share/2nse699ycb6rtvhfuz
+      6.1.2.1 流动性计算公式、费率计算等核心业务逻辑是否存在数值边界漏洞？
+      6.1.2.2 是否有极端参数输入（如极大 tick、极小流动性区间）可以触发意外行为？
+  6.2 算术精度误差审计 Arithmetic Accuracy Deviation Audit
+  核心： 十进制只有整数没有小数，小数部分会被砍掉，所以有误差
+  修改建议：https://chat.deepseek.com/share/o4vdv0xjxu842m1yen
 
 
 
