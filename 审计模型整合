@@ -57,6 +57,8 @@ https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
 防重放保护	      迁移函数是否包含 assert! 确保仅执行一次？	             可被反复调用刷取奖励或导致状态混乱。
 5.3 外部调用安全审计 External Call Function Security Audit
 核心： 外部模块稳定性与可信度， 访问权限有误， 复杂调用产生的问题(过程中产生的时间差，错误调用，以及递归调用导致的资源耗尽)
+5.4 Gas 优化审计 Gas Optimization Audit
+核心： 不影响功能情况下越简单越好(比如把链上操作搬到链下做，再传结果回来，这样可以简化链上流程，但这过程中产生的交互和时间差本身也可能成为被攻击的对象，所以需充分检查)
 
 
 
