@@ -95,20 +95,51 @@ https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
 二、工具使用
 1. 跑得飞快的“规则专家”：静态分析 (Static Analysis)
 这就是你担心的“模板匹配”的典型。它不运行代码，而是将合约源码转换成一个叫 SlithIR 的中间表示（IR），然后像高级的代码检查工具（Linter）一样，去匹配已知的漏洞模式（比如检查你是否使用了不安全的 tx.origin 做鉴权），或者通过构建控制流图（CFG）分析复杂的调用关系。它的优势是快（秒级出结果），非常适合在开发早期快速筛查代码风格和结构性问题。但局限也很明显：无法深入检测复杂的业务逻辑，且存在一定的误报。
+  (1) Sentri：快速的多链静态检查器（支持Move），可在数秒内给出反馈。
+      CLI 命令：npx @sentri/cli check ./sources --chain move
+      链接：https://www.npmjs.com/package/@sentri/cli
+
+  (2) Sui-Move-Analyzer：Team BitsLab (MoveBit) 开发的集成开发插件，与 VSCode 等融合，强化了代码导航、自动补全和框架集成。
+      链接：https://movebit.xyz/blog/post/Introducing-Sui-Move-Analyzer-Development-Made-Simple.html
+
+  (3) MoveMaker：有项目基于此构建了合约审计平台，旨在分析包括 Move 在内的多种语言。
+      链接：https://github.com/A1LinLin1/hackathon
+
 
 2. 抽丝剥茧的“数学侦探”：符号执行 (Symbolic Execution)
 这是为了弥补静态分析“不够深”而生的技术，以 Mythril 工具为代表。程序执行时，正常输入是具体的值（如 amount = 100），但符号执行会用符号（X）代替具体值。它会分析 amount = X 时，程序后续每个条件分支（If/Else/Switch），并为每条路径生成一个由约束条件组成的数学公式，比如“如果X > 0 且 Y < 100...”。“实际运行” 这一步就发生在这里，工具会尝试求解这个数学公式，看是否存在一种情况能让攻击发生。它能像侦探一样问：“是否存在任何一个 X 值，能触发这个漏洞？”
 它的“推理”本质是数学求解。它把你代码逻辑变成方程，然后问 SMT 求解器：“能解出一个 x 让 balance 变成负数吗？” 这完全不是 AI 式的理解，而是机械的、冷冰冰的逻辑计算。
 
+Move Bytecode Symbolic Execution Engine：专为 Move 字节码设计的推理引擎。它会将可能的漏洞路径转化为方程，通过约束求解器 Z3 寻找可行解。
+GitHub：https://github.com/publicqi/pbctf23-move-vm
+
+
+
 3. 随机应变的“探索者”：模糊测试 (Fuzzing)
 另一种你提到的“先运行一下看结果”的技术是Fuzzing，其代表工具是 Echidna。它会用海量的、伪随机的数据去“轰炸”你的合约函数，尝试触发你预先定义好的安全属性（例如“永远不能超提”)。Fuzzing的可靠性很高，它发现的都是真实存在的漏洞，几乎没有误报。它不推理，但它用暴力证明，如果跑了 1 亿次都没破，那这个属性大概率是成立的。
+  (1) Sui-fuzzer (by FuzzingLabs)：与 Sui 基金会合作开发。支持通过子模块快速集成，只需指定已编译模块路径和目标函数名即可运行。
+      GitHub：https://app4.secure.forcepoint.com/FuzzingLabs/sui-fuzzer
+
+  (2) Belobog：由 MoveBit 团队研发的“类型感知”框架，极大解决了在 Move 强类型体系下生成有效测试用例的难题。评测显示它能发现人工审计中 100% 的严重漏洞和 79% 的主要漏洞，并已成功复现了真实攻击事件。
+      Paper：https://arxiv.org/abs/2512.02918
+
+  (3) MoveFuzz：专注于 Sui Move 智能合约的字节码级模糊测试工具。
 
 4. 终极武器：形式化验证 (Formal Verification)
 如果前几种是“找错”，那形式化验证就是“证真”。它旨在用数学方法证明，你的合约在所有可能的输入和状态下，100%符合你的规范。这就像做数学证明题，一旦得证，就意味着某些类型的漏洞被完全杜绝了。近年来，一些代表性工具使得这项曾经高精尖的技术开始变得民主化和开发者友好。
+  (1) Certora Sui Prover：强大的商业级工具，使用 CVLM 语言编写规范。可免费注册账户并在 CI/CD 中集成，能证明函数前置/后置条件和关键属性。
+      文档：https://docs.certora.com/
+
+  (2) Sui Prover (by asymptotic-code)：开源方案，基于 Boogie 引擎和 Z3 求解器，支持 brew install。直接在合约中编写 spec 块并运行 sui-prover 命令即可。
+      GitHub：https://github.com/asymptotic-code/sui-prover
 
 5. AI作为增强 (AI-Enhanced)：将AI驱动的审计工具或CI/CD流程中的自动扫描，作为人工审计前“降噪”和提示的环节，帮助人类审计师锁定可疑点，大幅提升最终人工审计的综合效率
+  (1) BitsLabAI Scanner：Team BitsLab 打造的 AI 审计代理。在 Sui 的审计大赛中，它的表现曾超越多数参赛审计员并获得第二名，展示了强大的自动漏洞检测和上下文分析能力。
+      了解更多：https://movebit.xyz/
 
+  (2) SuiGPT MAD：创新的 LLM 应用，能将 Sui 上未开源的字节码反编译为可读代码，极大提升了透明度和可审计性。
 
+  (3) M.I.E.S.C.：一个多层安全分析框架，通过编排 50 多种安全工具并结合 AI/ML 检测，作为审计前分类筛选工具。
 
 三、测试验证
 
