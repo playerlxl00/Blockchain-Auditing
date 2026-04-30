@@ -1,6 +1,9 @@
 核心逻辑：
 1. 代码，业务能跑通，
 2. 权限，
+2.1 访问控制审计 Access Control Audit
+核心： 访问权限范围有误 (public, private等)
+
 3. 所有权，
 4. 时间差，
 4.1 条件竞争审计 Race Conditions Audit
