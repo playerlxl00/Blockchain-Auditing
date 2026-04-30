@@ -38,6 +38,17 @@
 https://chat.deepseek.com/share/tprqbqlfkpr42b4vmb
 https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
 https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
+5.2 合约升级的安全审计 Smart Contract Upgrade Security Audit
+核心：是否成功把旧版本换成新版本
+核心总结：
+审计项目	          关键问句	                                             常见高危信号
+初始化逻辑	      init 中的代码是否在升级后通过迁移函数重新执行？	         升级后运行报 Object not found。
+依赖更新	          引用的外部包地址是否已过时且存在已知漏洞？	             Move.toml 中依赖项未更新 rev。
+动态字段迁移	      是否检查了所有 dynamic_field Key 的命名空间变更？	     旧 Key 直接丢弃，数据丢失。
+对象 ID 稳定性	  迁移后关键对象的 ID 是否改变？	                         硬编码 ID 的下游服务停止工作。
+防重放保护	      迁移函数是否包含 assert! 确保仅执行一次？	             可被反复调用刷取奖励或导致状态混乱。
+
+
 
 
 6. 数学逻辑正确性： 
