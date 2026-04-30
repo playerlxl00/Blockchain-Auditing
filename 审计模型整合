@@ -10,6 +10,13 @@
 
 
 5. 任何交互过程可能产生的逻辑错乱和增加的攻击面
+5.1 Randomness攻击
+随机数只有在模块内部生成才确保安全，因为随机都是伪随机，本质只是算法，如果允许外部操作则外部可以计算出随机数
+https://chat.deepseek.com/share/tprqbqlfkpr42b4vmb
+https://chat.deepseek.com/share/qm5al1hp8zm0fbxcnn
+https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
+
+
 6. 数学逻辑正确性： 
   6.1 溢出审计
     6.1.1 位运算溢出
