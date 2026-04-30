@@ -3,6 +3,14 @@
 2. 权限，
 2.1 访问控制审计 Access Control Audit
 核心： 访问权限范围有误 (public, private等)
+2.2 闪电贷代码权限有误
+函数可见性与访问控制
+(1) 内部函数是否误用 public 可见性？
+(2) 与资金转移相关的关键函数是否有适当的访问控制（如 sui::tx_context::sender() 校验）？
+(3) 是否存在"查询函数"意外修改状态的情况？Move 本身不区分 view 和写操作，需人工识别。
+(4) entry 函数的参数是否能被攻击者构造出恶意输入？
+
+
 
 3. 所有权，
 3.1 对象管理审计 Object Management Audit
