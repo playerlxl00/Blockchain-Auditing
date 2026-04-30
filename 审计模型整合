@@ -9,7 +9,8 @@
   (2) 与资金转移相关的关键函数是否有适当的访问控制（如 sui::tx_context::sender() 校验）？
   (3) 是否存在"查询函数"意外修改状态的情况？Move 本身不区分 view 和写操作，需人工识别。
   (4) entry 函数的参数是否能被攻击者构造出恶意输入？
-
+2.3 权限漏洞审计 Permission Vulnerability Audit
+核心： 找清楚接口(public, entry之类)，标注敏感操作(transfer, delete, update, withdraw之类），看清楚所有权，梳理流动
 
 
 3. 所有权，
