@@ -75,7 +75,8 @@ https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
 
 
 7. 实际效果和预想的业务逻辑是不是匹配
-
+设计逻辑审计 Design Logic Audit
+核心： 梳理逻辑，控制权限与所有权，对比实际情况与业务设计
 
 
 
