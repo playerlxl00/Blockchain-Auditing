@@ -47,7 +47,8 @@ https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
 动态字段迁移	      是否检查了所有 dynamic_field Key 的命名空间变更？	     旧 Key 直接丢弃，数据丢失。
 对象 ID 稳定性	  迁移后关键对象的 ID 是否改变？	                         硬编码 ID 的下游服务停止工作。
 防重放保护	      迁移函数是否包含 assert! 确保仅执行一次？	             可被反复调用刷取奖励或导致状态混乱。
-
+5.3 外部调用安全审计 External Call Function Security Audit
+核心： 外部模块稳定性与可信度， 访问权限有误， 复杂调用产生的问题(过程中产生的时间差，错误调用，以及递归调用导致的资源耗尽)
 
 
 
