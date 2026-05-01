@@ -67,6 +67,13 @@ public fun finish_harvest(vault: &mut Vault, op: HarvestOp, ctx: &mut TxContext)
     vault.operation_in_progress = false;
 }
 
+2.7 幽灵角色能力与权限提升
+核心：在使用幽灵类型时，必须对类型参数进行严格的“特化”（Specialization）约束。可以仿照public和public(friend)理解，纯粹的<Phantom T>就相当于public，随便传个什么东西进来都可以通过，这样调用者甚至可以自己造一个相符的struct进来运行，所以必须进行特化约束，即类似public(friends)规定谁能进，所以在绝大多数情况下泛型都是需要特化的，毕竟你根本不会有多少情况是允许所有人都进，所以但凡是看见有泛型就该查是否有特化，但凡是没有就需要高度警惕，即便是有也需要审查给出的特化是否合理，那同理public(friend)也一样
+并且特化可以针对多个对象，实现：https://chat.deepseek.com/share/9t2jq7rxza2zkgeuz0
+既然都特化了还选择使用泛型是因为泛型本质上也就是一个快捷键，通常是因为在某些设计中，多个角色会共享大量公共逻辑，比如存储、转移、验证等。用泛型 + 幽灵类型就可以写一份代码处理所有角色，减少重复，但就跟drop和copy一个道理，但凡是快捷键就意味着它舍弃了最安全的做法，那就一定需要高度谨慎，严格约束
+
+
+
 3. 所有权，
 3.1 对象管理审计 Object Management Audit
 核心： 对象类型可能不对
