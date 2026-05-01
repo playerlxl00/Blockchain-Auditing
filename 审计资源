@@ -2,7 +2,7 @@ SUI：
 
 1. 学习材料
 
-1.1 Knowledge framework:
+1.1 Knowledge framework: (虽然说这些内容主要的目的是提供只是框架，知识意义大于实战意义，但这里面的代码例子你也可以反复去回看复习，这就是最经典的例题。这些纯理论和代码实现差别极其大，也许理论已经懂了但代码一头雾水)
 (1) 慢雾安全团队：发布了《Sui - Move 合约审计入门》文章  /////////// FINISHED
 (2) Sui智能合约安全最佳实践：从编码到部署的全流程防护：https://blog.csdn.net/gitblog_00873/article/details/151308629， 核心内容：这份中文指南系统讲解了Sui Move合约的安全要点，从基础的能力系统（Abilities）、可见性控制，到更进阶的集合安全与密码学安全问题都有覆盖   /////////// FINISHED
 (3) 一个名为 "(Not So) Smart Contracts" 的 Sui 漏洞集合：https://secure-contracts.com/not-so-smart-contracts/sui/index.html
