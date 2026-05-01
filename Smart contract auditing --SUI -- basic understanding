@@ -151,4 +151,13 @@ let PurchaseReceipt { id, item, price, buyer } = receipt; 是什么？
 
 ----------------------------------------------------------------------------------------------
 
-https://chat.deepseek.com/share/tkwxuayc29abdnvo34
+泛型书写介绍：https://chat.deepseek.com/share/tkwxuayc29abdnvo34
+
+-----------------------------------------------------------------------------------------------
+
+*balance 是什么语法？
+Move 里 borrow_mut 返回的是 &mut u64（可变引用）。要修改它指向的值，必须用 * 解引用：
+
+*balance = *balance + amount;
+
+这等价于“把 balance 指向的数值取出来，加上 amount，再写回原处”。这是 Move 引用操作的基础。
