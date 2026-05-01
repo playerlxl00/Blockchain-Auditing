@@ -159,6 +159,14 @@ GitHub：https://github.com/publicqi/pbctf23-move-vm
       API：https://pypi.org/project/miesc/
       Github：https://github.com/fboiero/MIESC
 
+6. 补充
+Gas费估算工具
+工具/资源	                    |  用途
+sui client dry-run	          |  模拟交易，预估 Gas 成本
+Sui Move Analyzer（≥0.8.7） 	|  VS Code 中实时显示存储成本预测
+Sui Explorer Gas Tracker	    |  实时比照实际 Gas 消耗，误差应在 ±3% 内
+Devnet / Testnet 环境	        |  估算应用 Gas 费用、计算初始资本需求
+
 
 三、测试验证
 
