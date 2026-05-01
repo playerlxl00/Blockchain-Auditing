@@ -39,7 +39,33 @@ public fun process_all_scores_fixed(board: &mut Leaderboard) {
 drop并非必需品，drop只是隐式自动销毁，相当于只是一个销毁功能的快捷键，其实际功能完全可以通过直接显式用销毁函数实现，加上drop功能本身就有很大风险被误销毁掉(具体原理看drop功能阐释)，所以对于审计来说，但凡是有drop的地方都值得高度警惕 (可检查可见性)
 copy能力虽然在某些场景下属于必需，但仍需高度警惕，审查其逻辑 (可检查可见性) 
 2.5 紧急暂停功能 (权限，以及其可能引发的DoS和业务逻辑等问题)
+2.6 隐式重入 (本质就是没有设置好访问权限) 具体看https://chat.deepseek.com/share/7pot7e5nmnsf4dtdbv
+攻击流程:
+start_harvest() -> 保存储备金快照，例如1000。
+withdraw_for_strategy() -> 取走500。
+start_harvest() -> 再次调用，储备金快照被覆盖为500。
+finish_harvest() -> 检查通过（500 >= 500 * 0.98），攻击者成功。
 
+示例代码：
+struct HarvestOp { saved_reserves: u64 }
+
+public fun start_harvest(vault: &mut Vault, ctx: &mut TxContext): HarvestOp {
+    // 漏洞：没有检查 vault.operation_in_progress 看是否正在strategy交易，就可以反复调用，修复即在这里检查互斥锁，如果已有操作在进行则中止：assert!(!vault.operation_in_progress, EOperationInProgress);
+    vault.operation_in_progress = true;
+    HarvestOp { saved_reserves: balance::value(&vault.reserves) }
+}
+
+public fun withdraw_for_strategy(vault: &mut Vault, _op: &HarvestOp, amount: u64, ctx: &mut TxContext): Coin {
+    coin::take(&mut vault.reserves, amount, ctx)
+}
+
+public fun finish_harvest(vault: &mut Vault, op: HarvestOp, ctx: &mut TxContext) {
+    let HarvestOp { saved_reserves } = op;
+    let current = balance::value(&vault.reserves);
+    // 攻击者可通过嵌套调用来满足此检查
+    assert!(current >= saved_reserves * 98 / 100, EInsufficientReturn);
+    vault.operation_in_progress = false;
+}
 
 3. 所有权，
 3.1 对象管理审计 Object Management Audit
