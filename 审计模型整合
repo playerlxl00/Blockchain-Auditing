@@ -109,16 +109,21 @@ https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
 
 
 6. 数学逻辑正确性： 
-  6.1 溢出审计 (包括大资金冲，比如闪电贷)
-    6.1.1 位运算溢出
-    6.1.2 自定义函数溢出
-      https://chat.deepseek.com/share/2nse699ycb6rtvhfuz
-      6.1.2.1 流动性计算公式、费率计算等核心业务逻辑是否存在数值边界漏洞？
-      6.1.2.2 是否有极端参数输入（如极大 tick、极小流动性区间）可以触发意外行为？
-  6.2 算术精度误差审计 Arithmetic Accuracy Deviation Audit
-  核心： 十进制只有整数没有小数，小数部分会被砍掉，所以有误差
-  修改建议：https://chat.deepseek.com/share/o4vdv0xjxu842m1yen
-
+    6.1 溢出审计 (包括大资金冲，比如闪电贷)
+      6.1.1 位运算溢出
+      6.1.2 自定义函数溢出
+        https://chat.deepseek.com/share/2nse699ycb6rtvhfuz
+        6.1.2.1 流动性计算公式、费率计算等核心业务逻辑是否存在数值边界漏洞？
+        6.1.2.2 是否有极端参数输入（如极大 tick、极小流动性区间）可以触发意外行为？
+    6.2 算术精度误差审计 Arithmetic Accuracy Deviation Audit
+    核心： 十进制只有整数没有小数，小数部分会被砍掉，所以有误差
+    修改建议：https://chat.deepseek.com/share/o4vdv0xjxu842m1yen
+    6.3 单位统一
+    时间、金额等，需统一，而且命名也需要和实际单位同步，否则如果实际单位和你以为的单位不一样很可能就会出灾难
+    如：关键函数: clock::timestamp_ms(clock): 返回自Unix纪元以来的毫秒数。
+    常量STAKE_LOCK_TIME_SECONDS: 虽然在名字里标明了秒，但它在代码中直接被用作一个数值。
+    漏洞原理：stake函数将毫秒值存入了名为seconds的字段。而unstake函数在验证时，错误地将毫秒值与秒值进行了比较，导致锁定时间被万倍缩短。
+    解决方案：直接在最开始乘个系数把单位统一即可，不过既然在合约中没有具体值，具体是什么单位基本依靠对不同内置函数的默认返回单位了解，先验了解所有这种函数大海捞针而且效率很低，不如每次审计时着重关注所有带单位的东西，凡是会返回它们的函数都单独查阅会返回什么单位
 
 7. 实际效果和预想的业务逻辑是不是匹配
 设计逻辑审计 Design Logic Audit
