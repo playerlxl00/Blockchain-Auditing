@@ -21,6 +21,18 @@ public fun process_all_scores_fixed(board: &mut Leaderboard) {
   (2) 位置大小或第三方添加：使用Table/Bag
   (3) 资产存储： 强制使用ObjectBag/ObjectTable
   (4) 禁止在循环中使用vector:push_back处理用户输入
+1.5 表键冲突与重复存款
+Table是 Sui 提供的一个「键－值」存储结构，它的 add 方法强制要求键必须是唯一的。Bag、ObjectTable、ObjectBag也都是同样道理
+漏洞原理：用户第一次存款：键 sender 不存在，add 成功。同一用户第二次存款：sender 这个键已经存在，add 会直接 abort（中止交易），导致用户永远无法追加资金。
+所以，任何使用 add 向上述集合插入一个「可能已经存在的键」的时候，都必须先用 contains 检查，或改用 borrow_mut / upsert 等手法。
+安全模式通用模板（以 Table 为例）：
+if (table::contains(&mut table, key)) {
+    let val = table::borrow_mut(&mut table, key);
+    *val = *val + new_amount;       //////// 如果已经有key了，那肯定也已经有值了，就在原本值基础上直接加
+} else {
+    table::add(&mut table, key, new_amount);   /////// 原本没key就add
+}
+
 
 2. 权限，
 2.1 访问控制审计 Access Control Audit
