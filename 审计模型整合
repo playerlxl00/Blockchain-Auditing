@@ -25,7 +25,7 @@ public fun process_all_scores_fixed(board: &mut Leaderboard) {
 2. 权限，
 2.1 访问控制审计 Access Control Audit
 核心： 访问权限范围有误 (public, private等)
-注意：永远不要使用public(package) entry，因为你public(package)限制了之后又开了个entry接口给用户，那岂不是所有人都可以链接进去。应将函数拆分为两个：一个public(package)函数，包含核心逻辑，供包内其他模块调用，并实施严格的权限检查。一个public entry函数，作为交易的入口点，负责权限验证和参数转换，然后调用上面的public(package)函数。
+注意：永远不要使用public(package) entry，因为你public(package)限制了之后又开了个entry接口给用户，那岂不是所有人都可以链接进去，但这种配对在语法上合法，编译器不会报错。应将函数拆分为两个：一个public(package)函数，包含核心逻辑，供包内其他模块调用，并实施严格的权限检查。一个public entry函数，作为交易的入口点，负责权限验证和参数转换，然后调用上面的public(package)函数。不过private函数不需要担心这种问题，因为Sui Move 根本不允许 private entry 这种组合，如果写private entry编译器会直接报错拒绝编译。
 2.2 闪电贷代码权限有误
 函数可见性与访问控制
   (1) 内部函数是否误用 public 可见性？
