@@ -138,6 +138,12 @@ key, store, copy含义阐释： https://chat.deepseek.com/share/3jdzy9hxw4bjhsex
 
 witness, receipt和hot potato介绍与区分： https://chat.deepseek.com/share/j76p19kkd6b8n80wlc
 
+
+let PurchaseReceipt { id, item, price, buyer } = receipt; 是什么？
+这是模式匹配解构。把 receipt 这个结构体拆开，将其字段分别绑定到同名变量 id, item, price, buyer 上，同时 receipt 本身就被销毁了。
+
+之后你就可以单独使用这些变量了。因为结构体本身已被解构消失，所以这也是“销毁没有 drop 能力的结构体”的标准方法。
+
 ---------------------------------------------------------------------------------------------
 
 模运算(同余)介绍：https://chat.deepseek.com/share/udpnwzodug2rr680jd
