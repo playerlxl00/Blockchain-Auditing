@@ -16,6 +16,7 @@
 2. 权限，
 2.1 访问控制审计 Access Control Audit
 核心： 访问权限范围有误 (public, private等)
+注意：永远不要使用public(package) entry，因为你public(package)限制了之后又开了个entry接口给用户，那岂不是所有人都可以链接进去。应将函数拆分为两个：一个public(package)函数，包含核心逻辑，供包内其他模块调用，并实施严格的权限检查。一个public entry函数，作为交易的入口点，负责权限验证和参数转换，然后调用上面的public(package)函数。
 2.2 闪电贷代码权限有误
 函数可见性与访问控制
   (1) 内部函数是否误用 public 可见性？
@@ -24,6 +25,7 @@
   (4) entry 函数的参数是否能被攻击者构造出恶意输入？
 2.3 权限漏洞审计 Permission Vulnerability Audit
 核心： 找清楚接口(public, entry之类)，标注敏感操作(transfer, delete, update, withdraw之类），看清楚所有权，梳理流动
+注意： 永远使用 tx_context::sender(ctx) 作为身份验证的唯一依据，不能直接设一个address然后验证address是不是你预设的admin之类，因为这样的话调用者完全可以自己把admin地址传进来。检验的唯一方式就是看tx_context::sender(ctx)是不是符合
 2.4 Ability调用权限
 drop并非必需品，drop只是隐式自动销毁，相当于只是一个销毁功能的快捷键，其实际功能完全可以通过直接显式用销毁函数实现，加上drop功能本身就有很大风险被误销毁掉(具体原理看drop功能阐释)，所以对于审计来说，但凡是有drop的地方都值得高度警惕 (可检查可见性)
 copy能力虽然在某些场景下属于必需，但仍需高度警惕，审查其逻辑 (可检查可见性) 
