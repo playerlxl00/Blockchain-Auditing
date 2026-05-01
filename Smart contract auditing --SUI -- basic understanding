@@ -148,3 +148,7 @@ let PurchaseReceipt { id, item, price, buyer } = receipt; 是什么？
 
 模运算(同余)介绍：https://chat.deepseek.com/share/udpnwzodug2rr680jd
 核心： 周期，拆分
+
+----------------------------------------------------------------------------------------------
+
+https://chat.deepseek.com/share/tkwxuayc29abdnvo34
