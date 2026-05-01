@@ -47,6 +47,9 @@ if (table::contains(&mut table, key)) {
 2.3 权限漏洞审计 Permission Vulnerability Audit
 核心： 找清楚接口(public, entry之类)，标注敏感操作(transfer, delete, update, withdraw之类），看清楚所有权，梳理流动
 注意： 永远使用 tx_context::sender(ctx) 作为身份验证的唯一依据，不能直接设一个address然后验证address是不是你预设的admin之类，因为这样的话调用者完全可以自己把admin地址传进来。检验的唯一方式就是看tx_context::sender(ctx)是不是符合
+修复建议：详情及实际代码https://chat.deepseek.com/share/pn0z9rblpovbxvsjrq
+    (1) 存储并验证对象 ID：页面建议在父对象（如 router）中存储所依赖子对象（如 pool）的期望 ID。
+    (2) 视所有输入对象为不可信：核心思想是，不要信任任何从外部传入的对象，必须在执行任何状态修改之前，与内部存储的受信任版本 ID 进行比对。
 2.4 Ability调用权限
 drop并非必需品，drop只是隐式自动销毁，相当于只是一个销毁功能的快捷键，其实际功能完全可以通过直接显式用销毁函数实现，加上drop功能本身就有很大风险被误销毁掉(具体原理看drop功能阐释)，所以对于审计来说，但凡是有drop的地方都值得高度警惕 (可检查可见性)
 copy能力虽然在某些场景下属于必需，但仍需高度警惕，审查其逻辑 (可检查可见性) 
