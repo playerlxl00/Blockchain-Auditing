@@ -175,7 +175,7 @@ sui move虽然不同function和struct实际都是分开的无顺序但任何一�
 
 move
 // 添加一个动态字段（自动检查键的唯一性）
-dynamic_field::add(&mut parent.id, key, value);
+dynamic_field::add(&mut parent.id, key, value);   ////////// 为什么需要&mut parent.id, key, value三个以及动态字段的作用：https://chat.deepseek.com/share/1s7ll29sa135m189wr
 
 // 可变借用
 dynamic_field::borrow_mut<KeyType, ValueType>(&mut parent.id, key);
