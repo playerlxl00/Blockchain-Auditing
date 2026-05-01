@@ -110,6 +110,13 @@ public fun finish_harvest(vault: &mut Vault, op: HarvestOp, ctx: &mut TxContext)
     (2) 方案二：使用动态字段
     (3) 方案三：使用派生对象（Derived Objects）
 具体情况：https://chat.deepseek.com/share/9zqfkqtyplrx7008zf
+3.4 可变引用遮蔽 Mutable Reference Shadowing
+核心：在使用 mut 关键字解构结构体的可变引用时，你会得到一个新的局部变量，而不是一个指向原字段的别名，直接为其赋值无法修改链上状态，所以想要修改引用所指向的数据，必须使用解引用 * 运算符，如 *left = *limit;。这能明确地一次完成两个操作：先通过 * 读出新变量的值，再将其写入原结构体的字段。
+修复方法非常直接，就是对赋值操作的两边都进行解引用。
+修复方案：
+编码规范：
+    (1) 时刻使用解引用：从可变引用解构出字段后，任何写操作都必须使用 *。field = value 是本地变量绑定，*field = value 才是透过引用写入。
+    (2) 优先直接赋值：如果 Move 版本支持，更推荐直接对结构体引用进行字段赋值，如 cap.left = cap.limit;，它能从语法层面彻底规避遮蔽问题。
 
 
 
