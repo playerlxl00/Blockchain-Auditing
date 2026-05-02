@@ -199,7 +199,7 @@ id_leak_verifier：Sui 的字节码验证器会检查所有拥有 key 能力的�
 关键操作是否记录事件
 
 
-二、工具使用： 总教程：https://chat.deepseek.com/share/96u1h3sz9xxh4kn75w
+二、工具使用： 总使用教程：https://chat.deepseek.com/share/96u1h3sz9xxh4kn75w  工具理解：https://chat.deepseek.com/share/envjawutqxvx1zlded
 1. 跑得飞快的“规则专家”：静态分析 (Static Analysis)
 这就是你担心的“模板匹配”的典型。它不运行代码，而是将合约源码转换成一个叫 SlithIR 的中间表示（IR），然后像高级的代码检查工具（Linter）一样，去匹配已知的漏洞模式（比如检查你是否使用了不安全的 tx.origin 做鉴权），或者通过构建控制流图（CFG）分析复杂的调用关系。它的优势是快（秒级出结果），非常适合在开发早期快速筛查代码风格和结构性问题。但局限也很明显：无法深入检测复杂的业务逻辑，且存在一定的误报。
   (1) Sentri：快速的多链静态检查器（支持Move），可在数秒内给出反馈。
