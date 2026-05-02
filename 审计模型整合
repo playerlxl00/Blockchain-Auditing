@@ -147,6 +147,18 @@ https://chat.deepseek.com/share/kqzo4zloke4bmu2xc5
 动态字段迁移	      是否检查了所有 dynamic_field Key 的命名空间变更？	     旧 Key 直接丢弃，数据丢失。
 对象 ID 稳定性	  迁移后关键对象的 ID 是否改变？	                         硬编码 ID 的下游服务停止工作。
 防重放保护	      迁移函数是否包含 assert! 确保仅执行一次？	             可被反复调用刷取奖励或导致状态混乱。
+
+经典漏洞：验证器绕过漏洞 Verifier Bypass via Package Upgrade
+核心：当你在 Sui 上升级一个合约（包），并不是把原来的代码覆盖掉，而是发布一个全新的包，这个新包装着修改后的代码。原来的旧包（V0）和它的所有函数，仍然保留在链上，不会删除。
+而 可编程交易块（PTB） 是一个很强大的功能：它允许你把多个操作打包成一笔原子交易。在这笔交易里，你可以：先调用旧版本 V0 的一个函数，拿到一个结果。紧接着，再调用新版本 V1 的一个函数，把刚才的结果传进去。
+key 能力：在 Sui Move 中，如果一个结构体（struct）拥有 key 能力，它就被视为一个可以独立存储和转移的 Sui 对象。它的第一个字段必须是 id: UID，作为一个独一无二的身份标识。
+id_leak_verifier：Sui 的字节码验证器会检查所有拥有 key 能力的结构体，确保其 id 字段必须来自 object::new(ctx) 函数。这个检查是为了防止出现对象身份伪造（Object Identity Spoofing）。
+核心矛盾：问题在于，这个检查仅针对当前拥有 key 能力的结构体。如果一个结构体在被声明时没有 key，验证器就会认为它不是 Sui 对象，从而允许它打包任意的 UID，而不会触发 id_leak_verifier 的检查。
+所以你就可以在前后两个版本分别构造带key和不带key的同名struct，这样你就能把不带key结构体传到带key结构体的函数里面操作
+实例：https://chat.deepseek.com/share/cpq4t6ajybqgs1xp5u
+
+
+
 5.3 外部调用安全审计 External Call Function Security Audit
 核心： 外部模块稳定性与可信度， 访问权限有误， 复杂调用产生的问题(过程中产生的时间差，错误调用，以及递归调用导致的资源耗尽)
 5.4 Gas 优化审计 Gas Optimization Audit
