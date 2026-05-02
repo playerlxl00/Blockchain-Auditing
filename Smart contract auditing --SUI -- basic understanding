@@ -153,6 +153,14 @@ let PurchaseReceipt { id, item, price, buyer } = receipt; 是什么？
 
 泛型书写介绍：https://chat.deepseek.com/share/tkwxuayc29abdnvo34
 
+phantom 不是一个独立的类型或空壳，它只是一个关键字，用来修饰泛型参数。
+
+struct Request<phantom Asset> { ... }
+
+这等同于说：“Request 需要一个类型参数 Asset，但结构体内部不会存储任何 Asset 类型的值，这个参数只用于编译期的类型区分。”
+
+有Phantom就相当于在告诉说这东西是泛型，就是一个很抽象的概念，而且编译器并不认识这个概念，这东西只是给人类阅读的，比如你说一堆什么token，那也只有人类会给它抽象成一个大的泛型叫做Asset，如果没有Phantom那就说明你这是一个具体的类型，比如<RealToken>就是具体的RealToken而不是泛的了
+
 -----------------------------------------------------------------------------------------------
 
 *balance 是什么语法？
