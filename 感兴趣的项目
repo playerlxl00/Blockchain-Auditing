@@ -16,3 +16,247 @@ EVE Frontier 游戏/元宇宙	    evefrontier.com	       @EVE_Frontier	   Sui Bl
 DePIN Ninja	                     depin.ninja	           专门追踪 DePIN 项目，可按公链（比如选 Sui）、赛道（比如选 Wearables / Health）筛选
 DePIN Hub	                       depinhub.io	           另一个 DePIN 项目聚合器，看项目介绍、设备要求、代币激励
 CoinGecko 的 DePIN 分类	         coingecko.com	         在 Categories 下找 "DePIN"，按市值排名，看最头部的项目怎么设计的
+
+
+
+
+
+
+
+
+以下是你要的每个项目的链接与详细介绍，以及针对你的技能背景，如何具体开始“贡献专业价值”和“建立思想输出”的执行路径。
+
+---
+
+## 一、项目链接与详细介绍
+
+### 🔐 Seal & Walrus —— Sui生态的隐私基础设施
+
+**项目链接**
+
+- Walrus 官网：[https://www.walrus.xyz](https://www.walrus.xyz)
+- Walrus 文档：[https://docs.wal.app](https://docs.wal.app)
+- Seal 官网：[https://seal.mystenlabs.com](https://seal.mystenlabs.com)
+- Seal 文档：[https://seal-docs.wal.app](https://seal-docs.wal.app)
+- GitHub 仓库：[https://github.com/MystenLabs/seal](https://github.com/MystenLabs/seal)
+- TypeScript SDK：[https://www.npmjs.com/package/@mysten/seal](https://www.npmjs.com/package/@mysten/seal)
+- 社区联系：Sui Discord 的 Seal 频道 (`1356767654265880586`)
+
+
+**详细介绍**
+
+Seal 和 Walrus 是两个互补的基础设施组件，共同构成 Sui 生态的隐私数据层。
+
+**Walrus** 是去中心化存储协议，用于存放大规模加密数据。**Seal** 是去中心化秘密管理（DSM）服务，负责控制“谁能解密这些数据”——它在 Sui 链上定义访问控制策略，通过 Move 智能合约精确管理权限。
+
+Seal 的核心技术架构包括：
+
+- **客户端门限加密**：数据在用户本地加密，使用 Shamir 秘密共享机制将解密能力分散到多个密钥服务器，没有单一节点持有完整密钥
+- **链上访问策略**：开发者用 Move 合约定义——谁、在什么条件下、可以解密数据，支持时间锁、Token门控、角色权限等可编程逻辑
+- **去中心化守门**：轻量级密钥服务器验证链上策略后才提供解密密钥，支持 `t-of-n` 门限配置（例如 3/5 个服务器同意才能解密），用户可按自身信任模型和监管需求选择服务器
+- **SDK集成**：提供 TypeScript SDK 降低接入门槛
+
+目前 AlkiAds、OneFootball、Tusky、Coda 等项目已在主网使用 Seal。技术栈以 Rust（73.6%）和 Move（25.2%）为主。
+
+**与你技能的直接交汇点**：Seal 的 Move 合约控制着数据的解密权限——这正是你合约审计能力的直接切入点。机械义体的运行日志、固件版本、脑机接口信号等敏感数据可以加密存储在 Walrus 上，Seal 控制谁能审计这些数据而不暴露原始内容。GitHub 仓库有公开的贡献指南（`CONTRIBUTING.md`）。
+
+
+### 🏔️ ByteCrane —— 离线IoT的可信上链
+
+**项目链接**
+
+- Sui Blog 官方公告：[https://blog.sui.io/bhutan-offline-blockchain-dhi-innotech-mysten-labs/](https://blog.sui.io/bhutan-offline-blockchain-dhi-innotech-mysten-labs/)
+- Mysten Labs 官方 Twitter 公告：[@Mysten_Labs](https://twitter.com/Mysten_Labs)
+- Sui Network 官方 Twitter：[https://twitter.com/SuiNetwork](https://twitter.com/SuiNetwork)
+
+**详细介绍**
+
+ByteCrane 是 Mysten Labs 与不丹王国政府（DHI InnoTech）合作的概念验证项目，在喜马拉雅山区实地测试，解决了“没有互联网，区块链还能否工作”的根本问题。
+
+核心技术流程为**“离线签名 → 物理搬运 → 链上验证”**：
+
+- 传感器采集数据后，在完全离线环境中使用 `microSui`（运行在 ESP32 上的轻量Sui客户端）进行数字签名
+- 签名后的数据通过 LoRa 无线电、HAM、SMS 甚至声波传输。当无线电信号被山体阻挡时，无人机作为物理“起重机”携带 ESP32 芯片飞越山脊，实现多跳中继
+- 数据到达有互联网的网关后，被Sui验证节点校验并永久上链
+
+**意义**：这套方案适用于所有“没有完美互联网”的场景——植入式医疗设备在地下室、偏远地区、灾害环境中的数据回传；机械义体在极端条件下的运行日志验证；供应链中远程资产的可信记录。核心运行模式“离线签名，物理中继，链上验证”使其成为现实世界区块链基础设施的标杆。
+
+
+### 🧬 AxonDAO —— 去中心化健康研究与AI诊断
+
+**项目链接**
+
+- 官网：[https://axondao.io](https://axondao.io)
+- Discord：见官网或 LinkedIn 公告中的邀请链接
+- LinkedIn：[https://www.linkedin.com/company/axon-medical-research-token](https://www.linkedin.com/company/axon-medical-research-token)
+- 代币：AXGT（AxonDAO Governance Token）
+- 成立时间：2020年，总部美国怀俄明州
+
+
+**详细介绍**
+
+AxonDAO 构建了一个 AI 驱动的平台，用于健康数据管理与去中心化科学研究。核心理念是将医疗数据主权归还用户，通过可穿戴设备收集数据，AI分析健康模型，所有研究过程强调**防篡改的审计追踪**。
+
+关键特征：
+- 使用可穿戴设备持续监测健康指标
+- AI 驱动的健康模型进行数据分析
+- 严格的审计追踪确保数据和研究结果的不可篡改性
+- 探索迷幻药对健康影响的伦理、数据驱动研究，绕过传统机构阻隔
+- 2025年初新官网即将上线，明确目标是为“研究人员、贡献者和合作伙伴”提供更强的切入点
+
+**与你技能的交汇点**：防篡改审计追踪是该项目的核心卖点，你的审计背景可以直接应用在智能合约安全、数据流完整性验证上。
+
+
+### 🔬 Bio Protocol —— 生物科技的 DeSci Launchpad
+
+**项目链接**
+
+- 官网：[https://bio.xyz](https://bio.xyz)
+- 生态系统概览：官网首页“Explore the Bio Ecosystem”板块
+- Bluesky 社区：[http://bioprotocol.bsky.social](http://bioprotocol.bsky.social)
+
+**详细介绍**
+
+Bio Protocol 是 DeSci 领域的核心基础设施项目，目标是让任何人都能为早期生物技术研究提供资金、参与开发和治理。
+
+核心产品架构：
+- **Ignition Sales**：低市值融资模式，社区牵引力与科学进展同步增长
+- **BioXP**：通过BIO质押和生态系统参与赚取忠诚度积分，获早期项目白名单
+- **BioAgents**：科学AI智能体平台，可启动去中心化科学代理
+
+关键里程碑：2022年VitaDAO获辉瑞投资410万美元；2023年HairDAO成为首个提交科学专利的DAO；2024年Binance Labs首次投资DeSci项目；Genesis轮融资超$3300万。2025年Bio V1上线（Launchpad + 流动性引擎），Q3规划Bio V2（BioAgent Launchpad + BioXP）。
+
+目前生态涵盖：长寿研究、女性健康、迷幻药科学、合成生物学、冷冻保存、脑健康与神经退行性疾病等BioDAO。
+
+**与你技能的交汇点**：Bio Protocol 整合多个 BioDAO 的治理与融资，需要大量合约审计和安全基础设施。你在 DeFi 审计中建立的“重入攻击检测、状态验证”等技能直接适用。
+
+
+### 📚 ResearchHub —— 科学的GitHub
+
+**项目链接**
+
+- 官网：[https://www.researchhub.com](https://www.researchhub.com)
+- 文档：[https://docs.researchhub.com](https://docs.researchhub.com)
+- 期刊（RHJ）详情：[https://docs.researchhub.com](https://docs.researchhub.com) 对应板块
+- 社区 Discord：[http://discord.gg/researchhub-foundation](http://discord.gg/researchhub-foundation)
+- 代币：RSC（ResearchCoin），基于 Base L2（合约地址：`0xfbb75a59193a3525a8825bebe7d4b56899e2f7e1`）
+
+
+**详细介绍**
+
+ResearchHub 由 Coinbase CEO Brian Armstrong 联合创立，定位为“科学的 GitHub”，通过代币激励机制重塑科研的发表、评审与资助流程。
+
+核心机制：
+- **代币化同行评审**：审稿人完成高质量评审可获得价值 $150 的 RSC（被 *Nature* 期刊2024年12月报道，标志着学界对链上科研的认可）。每篇预印本取质量最高的前2份评审支付报酬，每周最多提交2篇审稿，单篇上限3,000词
+- **开放发表与讨论**：研究人员发布论文、获取社区反馈、因贡献获RSC激励；可与ORCID认证同步出版物，增强信任度
+- **社区治理**：RSC持有者参与平台决策投票
+- **近期里程碑**：RSC 上线 Coinbase 交易所（2025年7月），用户累计通过打赏等方式贡献约 $840 万价值的 RSC
+
+**参与资格**：面向各学科研究人员和领域专家。需要注册账户、填写专业背景、完成身份验证和ORCID认证后即可提交付费审稿。
+
+**与你技能的交汇点**：这套代币经济激励模型本身需要高强度安全审计（RSC的分配、打赏、审稿报酬等逻辑）；你可以将机械器官隐私相关的思考以 preprints 形式发表并获取同行反馈。
+
+
+## 二、如何具体贡献专业价值
+
+### 目标1：在 Seal & Walrus 上建立 Sui 生态的技术存在
+
+**Step 1：将 Seal 定位为“机械义体数据隐私栈”并动手实践**
+
+Seal 是目前 Web3 中最贴合机械器官数据隐私需求的基础设施，这个结合点非常独特。具体行动：
+- 通读 Seal 文档（[https://seal-docs.wal.app](https://seal-docs.wal.app)）和 Walrus 文档（[https://docs.wal.app](https://docs.wal.app)）
+- Clone GitHub 仓库，阅读 Move 合约源码和 Rust 代码，理解访问控制策略如何定义和验证
+- 参照 `CONTRIBUTING.md` 指引提交代码或文档贡献
+- 通过 Sui Discord 的 Seal 频道（`1356767654265880586`）向团队询问待解决的 issue
+
+**Step 2：提交实质性审计发现**
+
+- 审计 Seal 的 Move 合约中是否存在权限提升漏洞、重放攻击面或边界条件问题
+- 检查 SDK 集成安全性——这是许多项目最薄弱的环节
+- 将审计发现提交为 GitHub Issue，或参与其 Bug Bounty（如有）
+
+### 目标2：参与 Bio Protocol 生态贡献
+
+**Step 1：深入 Bio 生态，找到审计切口**
+
+- 访问 [bio.xyz](https://bio.xyz)，浏览“Explore the Bio Ecosystem”板块
+- 重点关注其 Launchpad 和 BioAgent 基础设施的合约
+- Bio 治理代币 BIO 的合约、质押逻辑需要持续审计
+- 加入其 Discord 或 Bluesky 社区，了解开发者的安全需求
+
+**Step 2：关注 Binance Labs 首次投资 DeSci 带来的安全需求**
+
+- 作为 Binance Labs 首个 DeSci 投资项目，Bio Protocol 将面临严格的机构级安全审查需求——这正是你的机会
+
+### 目标3：参与 ResearchHub 构建学术影响力
+
+**Step 1：完成审核人注册并获取身份认证**
+
+- 注册 [researchhub.com](https://www.researchhub.com)，完善专业背景和研究兴趣
+- 完成身份验证和ORCID认证，建立信誉基础
+- 通过“Earn”标签页筛选审稿机会，匹配你专业领域的论文或提案
+- 每次高质量审稿可获得价值约 $150 的 RSC 报酬
+
+**Step 2：发表你的原创思想作品**
+
+- 将机械器官隐私相关的技术文章以 preprint 形式发布，获取社区反馈
+- 结合 ResearchHub 的激励机制，你的文章质量越高、讨论越多，RSC 收益也越多
+
+### 目标4：在 AxonDAO 上切入健康数据隐私赛道
+
+- 通过其 Discord 了解技术栈和开放的安全审计需求
+- 其“防篡改审计追踪”直接对应你的合约审计能力
+
+
+## 三、如何建立思想输出
+
+### 方向1：写“为智能义肢设计数据审计框架”系列
+
+建议结构：
+
+**Part 1 - 现状分析**：现有植入式医疗设备的安全事件复盘（起搏器、胰岛素泵被攻击案例），传统固件审计的局限性
+
+**Part 2 - 链上审计框架**：如何用 Seal + Walrus 实现义体数据的加密存储和精确访问控制；审计流程设计（固件版本上链、运行日志的 Merkle proof 验证）；当数据主权属于用户而非设备厂商时，审计模型如何变化
+
+**Part 3 - ZK电路的未来角色**：机械义体网络中的去中心化机器身份（DMI），如何用 ZK 证明“我是一个安全的设备，我的固件未被篡改”，而不暴露设备ID、位置、型号等任何隐私信息
+
+**发表渠道**：ResearchHub 作为 preprint 发布（获得同行反馈 + 赚取 RSC）、Mirror.xyz 面向 Web3 社区、ETHResearch 面向密码学研究者、CSDN / 知乎面向中文技术社区
+
+
+### 方向2：从审计视角批评现有 DeSci / 健康数据项目
+
+最能建立专业影响力的是直接的、有深度的技术文章。例如：
+- “我对 AxonDAO 防篡改审计追踪的技术评估”
+- “Seal 隐私层的安全边界分析”
+- “Bio Protocol Launchpad 的合约安全性初探”
+
+DeepSeek 可辅助分析，但真正有穿透力的洞察和审计判断来自你的专业积累。完成初稿后对标 Code4rena 或 Sherlock 的公开审计报告水平。
+
+
+### 方向3：在 ZK 电路方向建立前瞻性专业积累
+
+**推荐学习路径**：
+- 💻 **入门（1-3个月）**：Circom 语言 + zk-SNARKs 基础；参加 0xPARC 等社区的工作坊
+- 📚 **进阶（3-6个月）**：深入 Halo2、Nova 等证明系统；学习 Noir（Aztec 的 ZK 语言），阅读 Noir Contract Audit Playbook（已开源 ~60页，MIT协议）
+- 🎯 **拓展**：跟进 Sui 生态的 ZK 项目（如 Walrus 可能引入的 ZK 组件）
+
+**同时参与实践**：
+- Aztec Network 的审计竞赛
+- ZK 审计赏金任务
+- Noir Contract Audit Playbook 为社区贡献新的漏洞类别和检查清单
+
+**然后输出**：当你在该领域建立起足够多且有深度的实践后，可将这些经验系统化为审计方法论，指导后来者。
+
+
+### 总结：你的180天行动路径
+
+- **0-30天**：注册 ResearchHub 并完成审稿人认证 → Clone Seal 源码并提交第一个文档 PR → 加入 Sui Discord、Bio Protocol Bluesky、ResearchHub Discord 三个社区
+- **30-90天**：完成一次 Seal 合约的完整安全审计，发布公开文章 → 在 ResearchHub 发表第一篇关于“机械义体隐私审计”的 preprints → 提交第一份付费审稿→ Circom 基础学习完成
+- **90-180天**：在 Bio Protocol 生态中发现并报告第一个漏洞 → 围绕“机械义体数据隐私栈”在社区中建立明确的技术品牌 → 参与 ZK 审计竞赛 → 输出系列文章的完整版本
+
+你的技能组合在这个赛道上有非常独特的稀缺性：既懂合约审计的硬技术，又有将 ZK 电路应用于前沿海量IoT场景的交叉视角。
+
+
+
+
+
