@@ -1,0 +1,243 @@
+第一阶段：Solidity基础 + 以太坊生态快速补课（2～3周）
+目标：补齐Solidity语法和EVM基础，不按开发者的全栈路线走，而是快速覆盖审计所需的最小必要知识。
+
+1. Solidity语法速通
+· WTF Solidity（国内社区口碑最好的开源教程）：https://github.com/WTFAcademy/WTFSolidity （直接拉仓库，按章节刷，重点放在第1-40讲——变量、函数、继承、接口、事件、错误处理）
+
+· Solidity官方文档：https://docs.soliditylang.org/ （作为参考手册，遇到不确定的语法细节随时查阅）
+
+· 关键差异点（对比Move）：Move有资源类型和线性类型系统，Solidity没有；Move的acquires检查和借用检查器在Solidity中不存在；Solidity的delegatecall、selfdestruct、fallback/receive是你之前不需要关注的攻击面，需重点理解
+
+2. EVM核心概念
+· Mastering Ethereum（免费开源书籍）：https://github.com/ethereumbook/ethereumbook 
+  · 重点章节：Chapter 13（EVM）、Chapter 14（共识算法）、Chapter 9（智能合约安全）
+
+· 必懂概念列表：Storage/Memory/Calldata布局、Gas机制、交易生命周期、EIP标准（EIP-20/721/1155/1967/2535）、代理模式（Transparent/UUPS/Beacon）
+
+3. 开发工具（审计视角）
+· Foundry框架（当前审计行业标配）：https://book.getfoundry.sh/
+
+  · forge test：编写PoC测试验证漏洞
+
+  · cast：链上数据抓取与交互
+
+  · anvil：本地分叉测试
+
+· Etherscan合约验证与阅读：https://etherscan.io/ （你已有etherscan使用经验，主要是学会阅读已验证合约源码和代理合约的“Read as Proxy”模式）
+
+· Solodit（审计报告聚合器）：https://solodit.xyz/ 
+
+第二阶段：安全审计专项能力构建（4～6周）
+目标：建立系统化的审计思维框架，掌握核心漏洞类型和静态分析工具，能独立完成中型合约的安全审查。
+
+1. 核心漏洞类型（按优先级排序）
+以太坊Solidity合约的Top 10漏洞（OWASP Smart Contract Top 10）：
+
+(1) 重入攻击（Reentrancy）：经典DAO攻击、跨函数重入、只读重入
+
+(2) 整数溢出/下溢（Solidity 0.8+已内置检查，但仍需警惕unchecked块）
+
+(3) 访问控制缺陷（Access Control）：onlyOwner修饰符逻辑错误、初始化函数未保护
+
+(4) 闪电贷攻击（Flash Loan）：价格预言机操纵
+
+(5) 代理合约存储冲突：升级时存储布局不兼容
+
+(6) 前端运行（Front-running/MEV）：commit-reveal方案缺失
+
+(7) 拒绝服务（DoS）：循环中gas耗尽、意外revert
+
+(8) 未检查的外部调用返回值：call/delegatecall/send的低级调用
+
+(9) 签名重放攻击：缺少nonce或chainID
+
+(10) 逻辑漏洞：业务逻辑错误（最容易被忽视，但占比最高）
+
+必学资源：
+
+· DeFiHackLabs（含PoC的漏洞复现仓库）：https://github.com/SunWeb3Sec/DeFiHackLabs 
+
+· Damn Vulnerable DeFi（DeFi攻防CTF经典）：https://github.com/theredguild/damn-vulnerable-defi 
+
+· Ethernaut（OpenZeppelin官方CTF平台）：https://ethernaut.openzeppelin.com/ 
+
+2. 审计方法论框架
+· Sherlock的5步审计法（来自平台顶级审计员）：
+
+(1) 深度理解代码库：选择1-2个协议类型（如借贷协议Aave、AMM如Uniswap），花数天深入理解其代码库，目标是能在脑海中可视化协议架构
+(2) 阅读历史漏洞报告并建立Checklist：在Solodit上搜索类似协议的历史漏洞，建立个人检查清单
+(3) 以攻击者思维思考：模拟攻击路径，不只看代码本身，还要看经济激励设计
+(4) 快速反馈循环：参与审计竞赛（如Sherlock、Code4rena），从他人的评审意见中快速学习
+(5) 持续迭代Checklist：每次审计后更新Checklist
+
+· 慢雾安全团队审计路线图（中文）：https://github.com/laike/SlowMist-Learning-Roadmap-for-Becoming-a-Smart-Contract-Auditor 
+
+  · 分为四个阶段：出发准备 → 寻门而入 → 倚门而歌 → 破门而出
+
+  · 包含区块链基础、智能合约基础、常见漏洞、最佳实践、CTF挑战、DeFi协议等模块
+
+3. 必会工具
+· Slither（静态分析，检测速度快，覆盖90+漏洞模式）：https://github.com/crytic/slither 
+
+· Mythril（符号执行，检测复杂路径漏洞）：https://github.com/Consensys/mythril 
+
+· Echidna（模糊测试）：https://github.com/crytic/echidna
+
+· Tenderly（调试与交易模拟）：https://tenderly.co/ 
+
+4. 审计综合资源
+· Smart Contract Auditor Tools & Techniques（综合资源仓库）：https://github.com/sagarjethi/smart-contract-auditor-tools-techniques-and-courses 
+
+  · 包含：审计路线图、交易可视化工具、链上监控工具、链上模拟器、形式化验证工具、静态分析工具、DeFi安全资源、事件响应等
+
+· Cyfrin Updraft安全审计课程（英文，含Assembly/Yul）：https://github.com/Cyfrin/security-and-auditing-full-course 
+
+第三阶段：PsyDAO专项分析 + 社区切入（持续进行）
+目标：将审计能力直接应用于PsyDAO项目分析，产出有深度的rebirth前后对比内容，建立个人技术声誉。
+
+1. PsyDAO核心信息
+代币合约（两个关键地址）：
+
+· PSY代币（ERC-20）：0x2196b84eace74867b73fb003aff93c11fce1d47a 
+
+可在Etherscan直接查看：https://etherscan.com/token/0x2196b84eace74867b73fb003aff93c11fce1d47a
+
+· MasterBaseV2合约（PSYDAO的质押/奖励核心）：0xe201a8fd2fda87e5b8c5f0b513df22cc8cee9fb9 
+
+  · 由Molecule和bio.xyz孵化，2022年启动，VitaDAO/Molecule/Gitcoin创始团队成员发起
+
+  · 使用IP-NFT和可替代IPT来构建链上迷幻科学IP组合
+
+  · 治理：每1个$PSY = 1票
+
+2. PsyDAO Rebirth前后对比分析框架
+你需要重点分析以下维度（建议将分析结果整理成Mirror文章发布）：
+
+（1）代币合约层面
+
+· PSY代币合约：检查是否有增发/销毁机制、转移限制、黑名单等权限
+
+· 使用Slither对合约进行静态扫描，输出漏洞报告
+
+· 对比Rebirth前后：代币供应量变化、持有者分布变化、交易量变化
+
+（2）治理合约层面
+
+· PsyDAOMasterBaseV2：分析质押/奖励机制、权限管理
+
+· 合约升级记录：利用Etherscan的“Implementation”历史查看V1→V2的变化
+
+· 审计关注点：
+
+  · 代理合约存储布局兼容性
+
+  · onlyOwner升级权限是EOA还是多签/DAO控制
+
+  · 奖励计算逻辑是否可被闪电贷操纵
+
+  · 是否有紧急提款或暂停功能（withdrawalsPaused）
+
+（3）社区活跃度
+
+· Discord/论坛活跃度变化
+
+· 治理提案数量和质量
+
+· 社区成员增长趋势
+
+· 孵化项目（如BeeARDaig）
+
+3. 技术分析框架（建议使用）
+· Aether（AI驱动的Solidity安全分析+PoC生成框架）：https://github.com/l33tdawg/aether 
+
+  · 结合AST解析、污点分析、控制流图分析、跨合约分析、符号执行
+
+· Foundry测试套件：对PsyDAO MasterBaseV2合约编写fork test，验证质押/提现逻辑
+
+4. 生成分析报告
+· 参考格式：Solodit上的审计报告（https://solodit.xyz/）
+
+· 报告需包含：
+
+  · 漏洞严重性分级（Critical/High/Medium/Low/Info）
+
+  · 漏洞描述 + 影响分析 + PoC代码 + 修复建议
+
+· 发表渠道：Mirror.xyz（PsyDAO社区本身也在Mirror上有内容）、Twitter（标注@psy_dao）
+
+5. 社区深入路径（成为大使的路线）
+阶段一：内容贡献者
+
+· 发布PsyDAO合约分析文章到Mirror
+
+· 在PsyDAO社区论坛/Discord分享你的发现
+
+· 翻译或解读关键治理提案
+
+阶段二：技术贡献者
+
+· 参与PsyDAO治理投票（需持有PSY代币）
+
+· 对合约提出改进建议
+
+· 协助社区成员理解复杂的合约逻辑
+
+阶段三：大使/核心贡献者
+
+· 了解PsyDAO的大使计划申请流程
+
+· 组织技术研讨会或AMA
+
+· 作为技术代表参与生态合作
+
+第四阶段：持续成长（长期）
+1. 参与审计竞赛平台
+· Sherlock（按发现付费）：https://sherlock.xyz/ 
+
+· Code4rena（最大的审计竞赛平台）：https://code4rena.com/
+
+· Cantina：https://cantina.xyz/
+
+2. 持续学习资源
+· Web3安全路线图（2024更新版）：https://github.com/vishaalS7/Web3-security-roadmap 
+
+· OWASP Smart Contract Top 10：https://owasp.org/www-project-smart-contract-top-10/ 
+
+· DeFi安全峰会视频：2022 Day1：https://youtu.be/EdH7UaJec3g / 2022 Day2：https://youtu.be/umV-wcKlpjg
+
+3. 关注行业顶级审计师
+· 慢雾安全团队：中文社区最活跃的安全团队
+
+· Officer CIA的审计指南：https://officercia.mirror.xyz/FvMKbibx7gDlufgZSkmYn77CI8HPBsVCeqUKmpXHr0k 
+
+· RazzorSec的审计路线图：https://github.com/razzorsec/AuditorsRoadmap 
+
+特别提醒
+你与纯开发者路线的主要区别：
+
+· ❌ 不需要深入学习前端集成（React/ethers.js）、后端服务、DApp全栈开发
+
+· ❌ 不需要写大量的业务合约代码（除非为了理解某类协议）
+
+· ✅ 需要大量阅读他人合约代码（尤其是已验证的Etherscan合约）
+
+· ✅ 需要掌握攻击模拟能力（用Foundry编写PoC，而非部署产品）
+
+· ✅ 需要建立个人漏洞Checklist并不断迭代
+
+· ✅ 需要参与审计竞赛/赏金平台获取真实反馈
+
+PsyDAO切入的具体建议：
+
+(1) 先花2-3天时间，对PSY代币合约和MasterBaseV2做一轮完整的Slither + 手动代码审计
+
+(2) 用Foundry对MasterBaseV2的核心函数（deposit/withdraw/claimReward）编写测试用例，验证是否存在经济攻击面
+
+(3) 分析Rebirth前后的链上数据（用Dune Analytics或直接用cast查询历史事件），做出数据驱动的对比
+
+(4) 将以上发现整理成一篇高质量的Mirror文章，发到PsyDAO的Discord，并@核心成员
+
+(5) 以这篇分析为敲门砖，进一步了解大使计划的具体要求
+
+从Move到Solidity的迁移，核心变化不是语言语法，而是EVM攻击面的多样性和DeFi协议的经济模型复杂性。利用你对链上数据的敏感度，配合合约审计的系统方法论，你在PsyDAO这样的DAO生态中快速建立起技术声誉是完全可行的。先从PsyDAO的合约审计实战开始，过程中遇到任何具体问题可以随时追问。
+
