@@ -39,7 +39,59 @@ Step1: Rust 基础
 · 再去找答案：根据官方文档和白皮书，锁定相关模块，比如共识引擎。然后进入 sui-core/src/consensus/ 目录去阅读。
 · 形成笔记：把你对代码逻辑的理解画成流程图或写成要点。你发现的任何一个不明白的地方，都可能是一个潜在的研究点。这就是审计思维的开始。
 
+Step2：审计基础
+第一阶段：筑牢根基——Sui 底层架构与核心组件
+协议审计的核心是理解底层机制，首先需要深入掌握 Sui 的架构。
 
+· 核心架构与共识：深入学习 Sui 的面向对象数据模型和并行交易处理机制。重点在于理解其共识引擎，包括已废弃的 Narwhal & Bullshark，以及当前主网的下一代高性能共识协议 Mysticeti。
+
+· 对象与所有权模型：深刻理解 Sui 的对象模型是协议审计的基石。被拥有的对象（Owned Objects）交易处理简单，无需共识；而共享对象（Shared Objects）则必须经过完整的共识协议排序，这与以太坊的账户模型截然不同。对共享对象身份、所有权和生命周期的错误处理是高级漏洞的常见来源。
+
+核心资源：
+· 官方文档：重点阅读 https://docs.sui.io/ 和 https://sui-docs-sui-foundation.vercel.app/
+· 核心代码：浏览 MystenLabs 的 GitHub 仓库，尤其是关于共识实现的源码 https://github.com/MystenLabs/sui
+· 官方博客：阅读官方博客中的架构深度解析系列，如 https://blog.sui.io/mysticeti-v2/
+
+第二阶段：专项学习——深入 Sui 协议漏洞类型
+掌握底层原理后，应聚焦于 Sui 协议特有的漏洞模式。
+
+· 对象与所有权相关漏洞：协议层常见的漏洞包括：
+  · 共享对象身份未验证：函数接受共享对象但不验证其ID，攻击者可创建相同类型的假对象替换，绕过权限检查。
+  · 对象能力滥用：涉及“Hot Potato”模式、Capability 模式等能力（Capability）的滥用。
+  · 升级包安全绕过：例如，利用升级在结构体中添加 key 能力，可能破坏不变量。此漏洞已被协议层面修复，但其思想是学习重点。
+
+· 经济模型攻击：在协议层面理解闪电贷攻击，例如 Scallop 协议的攻击事件，攻击者利用已废弃的合约抽干了sSUI奖励池约15万枚SUI，凸显了即使是已弃用但未移除的合约也可能成为巨大风险敞口。
+
+· 基础设施与网络风险：安全边界不限于链上。曾有研究指出，近 40% 的 Sui 验证节点存在严重配置错误，如开放SSH端口、未修复CVE漏洞等，这同样是协议审计应关注的部分。
+
+· DoS (拒绝服务) 攻击：底层逻辑缺陷也可能导致协议不可用。CertiK 的 Skyfall 团队就曾发现并披露了 Sui 区块链中一系列的拒绝服务漏洞。
+
+核心资源：
+· 漏洞案例研究：阅读 https://blockaid.io/
+· 进阶文章：阅读 https://certik.medium.com/ 和 https://www.openzeppelin.com/
+
+第三阶段：知己知彼——掌握安全工具与审计方法
+熟悉漏洞后，需要掌握发现和验证漏洞的工具，包括静态分析、形式化验证和基础设施检查。
+
+· 形式化验证工具：
+Sui Prover：由 Asymptotic 公司开发并开源的 Move 语言形式化验证工具，能将代码逻辑转化为数学公式证明，已在多家审计公司使用。
+
+· 安全服务与平台：
+专业的审计公司如 Blaize.Security 提供包括人工审计、CI/CD 安全管道、部署后监控与事件调查在内的全面安全服务。
+
+· 基础设施检查工具：
+Kei: 一个通过密码学方式验证 Sui 全节点返回数据（如检查点摘要是否获得法定人数的验证者签名）的工具，能有效防止数据欺骗。
+
+· AI辅助工具：
+像 Plamen 这样的自主审计代理，可协调多个AI代理进行分阶段审计，并生成包含PoC（概念验证）的审计报告。
+GoPlus 等安全平台提供API集成，可进行合约地址、Token安全分析及授权检查。
+
+核心资源：
+工具集成：研究 https://github.com/PlamenTSV/plamen 、 https://www.npmjs.com/package/@elizaos/plugin-goplus 等安全工具
+
+重要平台与社区：
+GitHub：关注 slowmist/Sui-MOVE-Smart-Contract-Auditing-Primer 等优质项目。
+Discord：加入 MoveCTF 的 Discord 服务器，与同好交流： https://discord.gg/qQxRrAWFXp
 
 
 
