@@ -1,0 +1,244 @@
+从 Sui Move 到 Solana：智能合约审计入门路线图
+你有 Sui Move 审计经验，这是一个很好的起点。但需要明确一个核心差异：Move 的安全模型以「资源」（Resource）为核心，运行时自动保证资产不能被复制或隐式丢弃；而 Solana 以「账户」（Account）为核心，程序接收的是原始字节，运行时不保证任何类型安全性——验证账户身份和数据的责任完全落在开发者（和审计者）身上。 这一根本差异塑造了 Solana 独有的漏洞类型和审计方法论。
+
+以下是按阶段划分的详细路线图。
+
+阶段一：理解 SVM 与 Move VM 的核心差异（2-3 天）
+从 EVM 到 SVM 的转变需要一种根本不同的心智模型。对于 Move 开发者来说同样如此。
+
+关键差异：
+
+维度	Sui Move	Solana
+安全核心	资源模型（不能复制/丢弃）	账户模型（一切都是原始字节）
+状态存储	对象（Object）内聚存储	账户分离存储（程序与数据分开）
+类型安全	运行时保证（类型系统）	运行时无保证（需手动验证 Discriminator/Owner）
+跨合约调用	相对简单	CPI 深度限制 4 层，需预声明所有账户
+签名机制	交易签名	交易签名 + PDA（程序派生地址可「签名」）
+推荐阅读资源：
+
+Sigma Prime - Transitioning from EVM to SVM: Key Concepts for Solana Security Assessments：https://blog.sigmaprime.io/transitioning-from-evm-to-svm-key-concepts-for-solana-security-assessments 
+
+从 EVM 到 SVM：资深安全研究员给出的 2026 安全指南（中文完整版）：https://learnblockchain.cn/article/23961 
+
+Solana 官方 EVM 到 SVM 迁移指南：https://solana.com/news/evm-to-svm
+
+InfectedIsm - Solana Quick Start Guide for Auditors：https://github.com/InfectedIsm/solana-quick-start-guide 
+
+阶段二：Rust 基础（10-15 天）
+审计 Solana 程序必须精通 Rust。在 SVM 中，程序被编译为 SBF（Solana 字节码格式），与 EVM 的托管环境不同，SBF 要求内存管理绝对精确。你已有的 Move 编程经验会让你更快适应 Rust 的所有权和借用概念（Move 也有类似的所有权模型）。
+
+2.1 Rust 基础语法（3-5 天）
+推荐资源：
+
+Rust 官方教程（The Book）：https://doc.rust-lang.org/book/
+
+Rust 程序设计语言（中文版）：https://rustwiki.org/zh-CN/book/
+
+通过示例学 Rust：https://rustwiki.org/zh-CN/rust-by-example/
+
+2.2 安全导向的 Rust 深度学习（5-7 天）
+作为审计者，你需要以安全视角理解 Rust。
+
+推荐资源：
+
+Cyfrin Updraft Rust 编程基础（免费课程）：https://updraft.cyfrin.io/courses/rust-programming-basics 
+
+理解 Rust 所有权：https://learnblockchain.cn/article/23965 
+
+Rustonomicon（Unsafe Rust 深度指南）：https://doc.rust-lang.org/nomicon/working-with-unsafe.html 
+
+不安全的 Rust 最佳实践：https://learnblockchain.cn/article/23964 
+
+2.3 Borsh 序列化（1-2 天）
+Solana 无状态逻辑的完整性依赖于 Borsh 序列化。理解 Borsh 对审计至关重要，因为一个字节的偏移就可能导致「Type Cosplay」漏洞。
+
+推荐资源：
+
+Borsh 官网：https://borsh.io/
+
+Borsh Schema 文档：https://docs.rs/borsh/latest/borsh/schema/index.html 
+
+揭秘 Borsh 序列化：https://learnblockchain.cn/article/23962 
+
+阶段三：Anchor 框架 & Solana 编程模型（7-10 天）
+Anchor 是 Solana 生态的 Hardhat/Foundry 等价物，2026 年仍是大多数 Solana 开发者的首选框架。绝大多数审计目标都使用 Anchor 编写。
+
+3.1 环境搭建
+推荐资源：
+
+Solana Playground（浏览器 IDE，零配置）：https://beta.solpg.io/ 
+
+Anchor 官方安装指南：https://book.anchor-lang.com/getting_started/installation.html
+
+Solana CLI 安装：https://docs.solanalabs.com/cli/install
+
+3.2 Anchor 核心概念
+Anchor 的精华在于 Accounts 宏和约束系统（#[account(mut)], has_one, close 等），这些约束是安全的第一道防线——理解它们如何被绕过是审计的关键。
+
+推荐资源：
+
+Anchor 官方书（必读）：https://book.anchor-lang.com/ 
+
+Anchor 官方示例（counter, escrow, voting 等）：https://github.com/coral-xyz/anchor/tree/master/examples 
+
+Master Anchor: The #1 Framework（2026 年最新指南）：https://dev.to/pratik_12b3f8bf3b50e48bae/master-anchor-the-1-framework-for-building-solana-programs-in-rust-2026-guide-4bne 
+
+Cyfrin Updraft Solana 课程（Anchor + Native Rust）：https://updraft.cyfrin.io/courses/solana 
+
+3.3 Solana 账户模型 & PDA（Program Derived Address）
+账户模型是 Solana 安全的基础，也是最容易出现漏洞的地方。每个 Solana 账户都有相同结构：lamports（SOL 余额）、data（任意字节）、owner（控制程序）、executable（是否可执行程序）。运行时不会告诉你「这是一个 Token 账户」——它只给你一个数据 blob。
+
+必须掌握：
+
+账户模型核心概念：https://solana.com/docs/core/accounts
+
+PDA 官方文档：https://solana.com/docs/core/pda 
+
+PDA Bump Seed Canonicalization 安全风险：https://learnblockchain.cn/article/23961 
+
+3.4 CPI（跨程序调用）
+CPI 是 Solana 组合性的核心，也是高风险区域。调用外部程序时必须预声明所有账户，且 CPI 最大深度为 4 层。
+
+推荐资源：
+
+Anchor 官方 CPI 文档：https://www.anchor-lang.com/docs/basics/cpi 
+
+Solana 官方 CPI 教程（中文）：https://solana.com/zh/docs/intro/quick-start/cross-program-invocation 
+
+Solana Cookbook - CPIs：https://solanacookbook.com/
+
+阶段四：Solana 智能合约漏洞体系（10-15 天）
+这是从开发者视角转向审计者视角的核心阶段。Solana 程序的输入是不可信的——开发者有责任对每一个进入程序的账户进行 Owner、Discriminator、以及特定账户关系的验证。Move 的资源安全模型在编译期和运行时提供了自动化的类型和所有权保证，而 Solana 则将这些验证任务完全交给了代码实现——审计正是要找出这些验证的缺失或疏漏。
+
+4.1 核心漏洞类别
+(1) 账户混淆（Account Confusion）——$52M+ 漏洞类型
+这是 Solana 最危险的漏洞类型之一，是 Cashio $52M 被黑的根本原因。如果你不手动验证 Owner、Discriminator，攻击者可以「cosplay」成合法账户并耗尽你的协议。
+
+推荐资源：
+
+$50M+ Bug Class: A Practical Guide to Solana Account Confusion：https://medium.com/@tolgacohce/50m-bug-class-a-practical-guide-to-solana-account-confusion-afb01224d955 
+
+了解 Solana 上的$52M Cashio 黑客攻击（配合阅读）
+
+(2) 缺失签名者（Missing Signer）检查
+未验证关键账户是否由正确实体签名，可能导致未授权操作。例如 Wormhole $326M 漏洞中，程序未验证 sysvar 账户的真实性，攻击者通过构造虚假签名完成了「零成本铸造」。
+
+(3) CPI 签名者陷阱
+当程序代表用户执行 CPI 时，如果未正确验证签名者，可能导致账户授权被滥用。相关案例可参考 Solana 安全常见被忽视漏洞文章。
+
+(4) PDA 种子 / Bump 未规范验证
+攻击者可以为相同种子创建多个有效 PDA 地址。审计员必须警惕「bump seed canonicalization」缺失。
+
+(5) Token-Agnostic 接口问题
+Anchor 的 token::transfer 默默忽略传入的 Token Program 参数，总是调用标准 SPL Token Program。在 Token-2022 场景下会导致转账失败或逻辑绕过。
+
+(6) 重复可变账户写入
+如果同一账户以不同名称被传入两次，Anchor 会加载两个可变引用，但只有最后一次写入会持久化——导致状态覆盖。
+
+(7) 算术溢出与精度问题
+虽然 Rust 默认在 Debug 模式有溢出检查，但 Solana 程序以 Release 模式编译运行，需要显式使用 checked_* 方法或 overflow-checks = true 配置。
+
+(8) Lamport 转移 Kill Switch / DoS 攻击
+如果转账目标不是租金豁免账户，转账会失败，可能导致系统层面的 DoS。
+
+4.2 系统化学习资源
+慢雾 Solana 智能合约安全最佳实践（中文，权威指南）：https://www.learnblockchain.cn/article/7690 
+
+Ackee Blockchain - Solana Common Attack Vectors：https://github.com/Ackee-Blockchain/solana-common-attack-vectors 
+
+100 个 Solana 日常技巧（涵盖审计者关心的方方面面）：https://learnblockchain.cn/article/20213 
+
+Solana 安全最佳实践 - Scalebit 版：https://www.scalebit.xyz/blog/post/best-solana-security-practices-guide.html
+
+Securing Solana: A Developer‘s Guide（Cantina）：https://cantina.xyz/blog/securing-solana-a-developers-guide 
+
+Rektoff - Security Roadmap for Solana Applications：https://github.com/Rektoff/Security-Roadmap-for-Solana-applications 
+
+4.3 2025-2026 年最新审计报告与案例分析
+Solana Token-22 机密转账安全审计（Code4rena）：https://github.com/code-423n4/2025-08-solana-foundation 
+
+ZK ElGamal Proof Program Bug 事后分析：https://solana.com/zh/news/zk-elgamal-proof-program-bug 
+
+Loopscale $5.8M 攻击分析：https://www.btcc.com/zh-CN/news/solana-defi-protocol-loopscale-drained 
+
+Wormhole $326M 漏洞深度解析：https://www.btcc.com/zh-CN/news/wormhole-326-million-vulnerability-analysis 
+
+Neodyme 对 Anza P-Token 程序的审计（2025 年 4 月-6 月）：https://neodyme.io 
+
+阶段五：审计工具链（7-10 天）
+5.1 静态分析工具
+Solazy - Solana 静态分析 & 逆向工程工具（FuzzingLabs）：https://fuzzinglabs.com/introducing-solazy-a-solana-static-analyser-reverse-engineering-tool/ 
+
+Sol-azy Recap 功能（将 Anchor 项目生成审计友好报告）：https://fuzzinglabs.com/sol-azy-audit-friendly-overviews/ 
+
+Solsec CLI（静态分析 + IDL 模糊测试）：https://github.com/hasip-timurtas/solsec 
+
+Ackee VS Code 插件（实时安全分析，9 个检测器）：https://ackee.xyz 
+
+Cargo Audit + Clippy：标准 Rust 安全检测工具组合
+
+5.2 模糊测试（Fuzzing）工具
+模糊测试是 Solana 审计的「力量倍增器」，能发现多轮人工审查都无法覆盖的边界情况。
+
+Honggfuzz + Rust 集成指南：https://zokyo.io/blog/fuzzing-solana-honggfuzz/ 
+
+Trident（Solana 原生模糊测试框架）：https://github.com/Ackee-Blockchain/trident 
+
+Praxis（纯 Rust Solana 模糊测试工具）：https://github.com/E-Okelloh/praxis 
+
+LiteSVM（轻量级 Solana VM 用于测试）：https://github.com/LiteSVM/litesvm 
+
+5.3 安全监控 & 运行时防护
+Lighthouse Assertion Guards（交易级安全防护）：https://www.quicknode.com/guides/solana-security/lighthouse-assertion-guards 
+
+Crystal（Solana 交易实时监控）：https://crystalintelligence.com 
+
+阶段六：CTF 与实战练习（持续）
+6.1 CTF 挑战
+Solsec（Solana 安全审计与漏洞资源合集，含 CTF 挑战）：https://github.com/sannykim/solsec 
+
+solana-hacks（CTF 挑战和漏洞合集）：https://github.com/MerovingioOps/solana-hacks 
+
+NiteCTF 2025 - Prisoner‘s Dilemma Writeup：https://coinsbench.com/nitectf-2025-prisoners-dilemma-writeup 
+
+QnQSec CTF - Vulnerable Token：https://blog.blockmagnates.com/qnqsec-ctf-vulnerable-token 
+
+6.2 审计竞赛平台
+Code4rena（Solana 专项审计竞赛）：https://code4rena.com/ 
+
+Cantina（安全竞赛平台，含 Solana 挑战）：https://cantina.xyz/ 
+
+6.3 真实审计报告阅读
+大量阅读知名安全公司的公开审计报告是提升审计能力的最佳方式。推荐阅读：
+
+FailSafe（https://getfailsafe.com/blog）、Neodyme（https://neodyme.io）、Offside Labs、Halborn（https://www.halborn.com）、OtterSec、Runtime Verification 等公司的公开报告。
+
+阶段七：社区参与和持续学习
+Solana 官方开发者中文文档（持续更新）：https://solana.com/zh/docs
+
+登链社区 - Solana 安全版块：https://learnblockchain.cn/ 
+
+Solana 开发者社区（Discord）：https://solana.com/discord
+
+Anchor 社区（Discord）：https://discord.gg/anchor-lang
+
+建议学习节奏
+阶段	主题	建议时间	累计
+一	SVM 与 Move VM 差异理解	2-3 天	3 天
+二	Rust 基础	10-15 天	18 天
+三	Anchor 框架 & Solana 编程模型	7-10 天	28 天
+四	Solana 漏洞体系	10-15 天	43 天
+五	审计工具链	7-10 天	53 天
+六	CTF 与实战	持续	-
+总计约 8 周（全职学习）可以建立扎实的 Solana 审计能力基础。之后进入实战项目阶段，通过参与 Code4rena、Cantina 等竞赛平台的审计竞赛和阅读大量审计报告持续提升。
+
+核心提醒
+忘掉 Move 的类型安全思维：在 Solana 中，程序接收的账户只是原始字节，运行时不做任何类型和关系的自动保证——一切都是审计者的责任。
+
+Solana 审计最核心的三问：Owner 正确吗？Discriminator 正确吗？账户之间的 Key/Mint 关系正确吗？
+
+Anchor 约束不是银弹：has_one、#[account(mut)] 等约束能防止很多问题，但复杂的业务逻辑仍需要审计者逐行审查。
+
+CPI 是高风险区域：每次跨程序调用都需要验证调用的目标程序、传入的账户、以及调用返回后的状态一致性。
+
+坚持读审计报告：阅读真实审计报告是建立直觉的最佳方式。
