@@ -236,7 +236,8 @@ GitHub：https://github.com/publicqi/pbctf23-move-vm
 
 4. 终极武器：形式化验证 (Formal Verification)
 如果前几种是“找错”，那形式化验证就是“证真”。它旨在用数学方法证明，你的合约在所有可能的输入和状态下，100%符合你的规范。这就像做数学证明题，一旦得证，就意味着某些类型的漏洞被完全杜绝了。近年来，一些代表性工具使得这项曾经高精尖的技术开始变得民主化和开发者友好。
-  (1) Certora Sui Prover：强大的商业级工具，使用 CVLM 语言编写规范。可免费注册账户并在 CI/CD 中集成，能证明函数前置/后置条件和关键属性。
+  (1) Certora Sui Prover：强大的商业级工具，使用 CVLM 语言编写规范。可免费注册账户并在 CI/CD 中集成，能证明函数前置/后置条件和关键属性。（需要联网，但不上传源码
+，安全上来说，这是一个云端验证服务。你用 Certora 的 CLI 在本地编写规范文件（.spec 文件），然后运行 certoraSuiProver.py。它会将你的合约源码和规范上传到 Certora 的云端服务器进行求解。Certora 是企业级服务，有严格的保密协议，服务过 Aave、MakerDAO 等头部协议，但仍需你自行评估合规性。）
       文档：https://docs.certora.com/
 
   (2) Sui Prover (by asymptotic-code)：开源方案，基于 Boogie 引擎和 Z3 求解器，支持 brew install。直接在合约中编写 spec 块并运行 sui-prover 命令即可。
@@ -244,10 +245,10 @@ GitHub：https://github.com/publicqi/pbctf23-move-vm
 
 
 5. AI作为增强 (AI-Enhanced)：将AI驱动的审计工具或CI/CD流程中的自动扫描，作为人工审计前“降噪”和提示的环节，帮助人类审计师锁定可疑点，大幅提升最终人工审计的综合效率
-  (1) BitsLabAI Scanner：Team BitsLab 打造的 AI 审计代理。在 Sui 的审计大赛中，它的表现曾超越多数参赛审计员并获得第二名，展示了强大的自动漏洞检测和上下文分析能力。
+  (1) BitsLabAI Scanner：Team BitsLab 打造的 AI 审计代理。在 Sui 的审计大赛中，它的表现曾超越多数参赛审计员并获得第二名，展示了强大的自动漏洞检测和上下文分析能力。（目前以网页上传源码的方式使用，你的代码会被发送到他们的服务器进行 AI 分析。需要信任 MoveBit 团队的数据处理政策。）
       了解更多：https://movebit.xyz/
 
-  (2) SuiGPT MAD：由卡内基梅隆大学团队开发的LLM反编译工具，能将 Sui 上未开源的字节码反编译为可读代码，重编译成功率73.33%，极大提升了透明度和可审计性。
+  (2) SuiGPT MAD：由卡内基梅隆大学团队开发的LLM反编译工具，能将 Sui 上未开源的字节码反编译为可读代码，重编译成功率73.33%，极大提升了透明度和可审计性。（你需要在网页上粘贴字节码才能反编译。字节码本身已经是公开的（链上数据），但如果你粘贴的是未开源项目的私有字节码，同样有泄露风险。）
       论文：https://arxiv.org/abs/2410.15275
       链接：https://suigpt.tools/mad
 
