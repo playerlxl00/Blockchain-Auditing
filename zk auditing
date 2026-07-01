@@ -1,0 +1,10 @@
+基础学习
+· WTF-zk教程：目标是让仅有高中数学基础的人也能入门。教程会使用Python复现算法，适合边学边练。访问：github.com/WTFAcademy/WTF-zk
+
+· ZKM教育中心：提供从入门到专业级的精选课程。第一门课程“零知识和SNARKS高级入门”由资深密码学家讲授。访问：zkm.io/zh/education-hub
+
+· 阅读材料：
+
+  · 零知识证明入门指南：快速建立对ZK核心概念的理解。
+
+  · zkVM概述：理解“由零知识证明保证安全可验证的虚拟机”。推荐阅读：Foresight Ventures解读：https://foresightnews.pro/article/detail/12447
